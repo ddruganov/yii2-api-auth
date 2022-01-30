@@ -2,7 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\http\filters;
 
-use ddruganov\Yii2ApiEssentials\common\ExecutionResult;
+use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Yii;
 use yii\base\ActionFilter;
 

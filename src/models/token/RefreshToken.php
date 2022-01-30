@@ -3,8 +3,8 @@
 namespace ddruganov\Yii2ApiAuth\models\token;
 
 use ddruganov\Yii2ApiAuth\models\User;
-use ddruganov\Yii2ApiEssentials\common\behaviors\TimestampBehavior;
-use ddruganov\Yii2ApiEssentials\common\DateHelper;
+use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
+use ddruganov\Yii2ApiEssentials\DateHelper;
 use yii\db\ActiveRecord;
 
 /**

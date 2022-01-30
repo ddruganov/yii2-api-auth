@@ -2,7 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models;
 
-use ddruganov\Yii2ApiEssentials\common\behaviors\TimestampBehavior;
+use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**

@@ -4,8 +4,8 @@ namespace ddruganov\Yii2ApiAuth\http\filters;
 
 use ddruganov\Yii2ApiAuth\exeptions\PermissionDeniedException;
 use ddruganov\Yii2ApiAuth\models\rbac\Permission;
-use ddruganov\Yii2ApiEssentials\common\exceptions\ModelNotFoundException;
-use ddruganov\Yii2ApiEssentials\common\ExecutionResult;
+use ddruganov\Yii2ApiEssentials\exceptions\ModelNotFoundException;
+use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Throwable;
 use Yii;
 use yii\base\ActionFilter;

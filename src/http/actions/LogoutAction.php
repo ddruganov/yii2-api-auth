@@ -2,8 +2,8 @@
 
 namespace ddruganov\Yii2ApiAuth\http\actions;
 
-use ddruganov\Yii2ApiEssentials\common\ExecutionResult;
-use ddruganov\Yii2ApiEssentials\common\http\actions\ApiAction;
+use ddruganov\Yii2ApiEssentials\ExecutionResult;
+use ddruganov\Yii2ApiEssentials\http\actions\ApiAction;
 use Yii;
 
 class LogoutAction extends ApiAction

@@ -3,7 +3,7 @@
 namespace ddruganov\Yii2ApiAuth\http\controllers;
 
 use ddruganov\Yii2ApiAuth\http\filters\AuthFilter;
-use ddruganov\Yii2ApiEssentials\common\http\controllers\ApiController;
+use ddruganov\Yii2ApiEssentials\http\controllers\ApiController;
 
 class SecureApiController extends ApiController
 {

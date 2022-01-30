@@ -7,8 +7,8 @@ use Firebase\JWT\Key;
 use ddruganov\Yii2ApiAuth\models\token\AccessToken;
 use ddruganov\Yii2ApiAuth\models\token\RefreshToken;
 use ddruganov\Yii2ApiAuth\models\User;
-use ddruganov\Yii2ApiEssentials\common\DateHelper;
-use ddruganov\Yii2ApiEssentials\common\ExecutionResult;
+use ddruganov\Yii2ApiEssentials\DateHelper;
+use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Yii;
 use yii\base\Component;
 
