@@ -1,7 +1,7 @@
 {
   "name": "ddruganov/yii2-api-auth",
   "description": "Authentication tools for yii2",
-  "type": "library",
+  "type": "yii2-extension",
   "require": {
     "yiisoft/yii2": "^2.0",
     "firebase/php-jwt": "^6.0",
