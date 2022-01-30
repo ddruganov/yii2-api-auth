@@ -1,5 +1,7 @@
 <?php
 
+namespace ddruganov\Yii2ApiAuth\migrations;
+
 use yii\db\Migration;
 
 class m000000_000008_create_refresh_token_table extends Migration

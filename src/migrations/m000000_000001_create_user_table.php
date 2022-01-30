@@ -1,6 +1,9 @@
 <?php
 
+namespace ddruganov\Yii2ApiAuth\migrations;
+
 use ddruganov\Yii2ApiEssentials\DateHelper;
+use Yii;
 use yii\db\Migration;
 
 class m000000_000001_create_user_table extends Migration

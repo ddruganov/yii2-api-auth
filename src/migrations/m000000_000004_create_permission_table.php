@@ -1,5 +1,7 @@
 <?php
 
+namespace ddruganov\Yii2ApiAuth\migrations;
+
 use yii\db\Migration;
 
 class m000000_000004_create_permission_table extends Migration

@@ -1,5 +1,7 @@
 <?php
 
+namespace ddruganov\Yii2ApiAuth\migrations;
+
 use ddruganov\Yii2ApiEssentials\DateHelper;
 use yii\db\Migration;
 use yii\db\Query;
