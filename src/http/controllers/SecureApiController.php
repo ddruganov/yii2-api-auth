@@ -12,9 +12,9 @@ class SecureApiController extends ApiController
         return array_merge(
             parent::behaviors(),
             [
-                'authenticated-request' => [
+                'auth' => [
                     'class' => AuthFilter::class,
-                    'except' => ['login', 'refresh']
+                    'exceptions' => ['login', 'refresh']
                 ],
             ]
         );

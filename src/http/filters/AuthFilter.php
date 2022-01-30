@@ -8,7 +8,7 @@ use yii\base\ActionFilter;
 
 class AuthFilter extends ActionFilter
 {
-    public array $except = [];
+    public array $exceptions = [];
 
     public function beforeAction($action)
     {

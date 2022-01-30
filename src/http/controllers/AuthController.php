@@ -14,7 +14,7 @@ class AuthController extends SecureApiController
         return array_merge(
             parent::behaviors(),
             [
-                'allow' => [
+                'rbac' => [
                     'class' => RbacFilter::class,
                     'rules' => [
                         'login' => 'authenticate',
