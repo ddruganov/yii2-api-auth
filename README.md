@@ -27,10 +27,11 @@
 ...
 ```
 
-2. Install the `AuthController` in your api app main config
+2. Install the `AuthController` in your api controller map
 3. Install the `AuthComponent` in you api app main config to reach it as `Yii::$app->get('auth')`
-4. Login in via `auth/login`
-5. Get a fresh pair of token via `auth/refresh` by POSTing a currently valid refresh token
-6. Logout via `auth/logout`
+4. Install the `RbacComponent` in you api app main config to reach it as `Yii::$app->get('rbac')`
+5. Login in via `auth/login`
+6. Get a fresh pair of token via `auth/refresh` by POSTing a currently valid refresh token
+7. Logout via `auth/logout`
 
 Use `Yii::$app->get('auth')->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`

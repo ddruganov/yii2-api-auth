@@ -25,7 +25,7 @@ class RbacFilter extends ActionFilter
 
             $user = Yii::$app->get('auth')->getCurrentUser();
 
-            if (!Yii::$app->rbac->checkPermission($permission, $user)) {
+            if (!Yii::$app->get('rbac')->checkPermission($permission, $user)) {
                 throw new PermissionDeniedException();
             }
         } catch (Throwable $t) {
