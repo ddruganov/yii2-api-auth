@@ -2,7 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\http\filters;
 
-use ddruganov\Yii2ApiAuth\exeptions\UnauthenticatedException;
+use ddruganov\Yii2ApiAuth\exceptions\UnauthenticatedException;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Throwable;
 use Yii;

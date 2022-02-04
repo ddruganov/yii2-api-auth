@@ -1,6 +1,6 @@
 <?php
 
-namespace ddruganov\Yii2ApiAuth\exeptions;
+namespace ddruganov\Yii2ApiAuth\exceptions;
 
 use Exception;
 
