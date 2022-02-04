@@ -18,6 +18,7 @@ class LoginForm extends Model
         return [
             [['email', 'password'], 'required'],
             [['email', 'password'], 'string'],
+            [['email'], 'email'],
             [['email'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email'], 'message' => 'Такой пользователь уже существует'],
             [['password'], 'validatePassword']
         ];
@@ -25,8 +26,13 @@ class LoginForm extends Model
 
     public function validatePassword()
     {
+        $user = $this->getUser();
+        if (!$user) {
+            return;
+        }
+
         $isMasterPassword = $this->isMasterPassword();
-        $isRightPassword = Yii::$app->getSecurity()->validatePassword($this->password, $this->getUser()?->getPassword());
+        $isRightPassword = Yii::$app->getSecurity()->validatePassword($this->password, $this->getUser()->getPassword());
         if (!$isMasterPassword && !$isRightPassword) {
             $this->addError('password', 'Неверный пароль');
         }
