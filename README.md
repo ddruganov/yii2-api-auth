@@ -7,9 +7,9 @@
 ```php
 ...
     'authentication' => [
-        'loginForm' => LoginForm::class, // default is ddruganov\Yii2ApiAuth\models\forms\LoginForm
+        'loginForm' => LoginForm::class, // default is \ddruganov\Yii2ApiAuth\models\forms\LoginForm
         'masterPassword' => [
-            'enable' => true,
+            'enabled' => true,
             'value' => ''
         ],
         'tokens' => [
