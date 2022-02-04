@@ -104,7 +104,7 @@ class AuthComponent extends Component
         return trim($accessToken);
     }
 
-    public function getCurrentUser()
+    public function getCurrentUser(): ?User
     {
         $jwt = $this->extractAccessTokenFromHeaders();
         $key = Yii::$app->params['authentication']['tokens']['secret'];

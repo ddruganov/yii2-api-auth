@@ -13,9 +13,14 @@ use yii\base\ActionFilter;
 class RbacFilter extends ActionFilter
 {
     public array $rules = [];
+    public array $exceptions = [];
 
     public function beforeAction($action)
     {
+        if (in_array(Yii::$app->controller->action->id, $this->exceptions)) {
+            return parent::beforeAction($action);
+        }
+
         try {
             $permissionName = $this->rules[$this->getActionId($action)] ?? null;
             $permission = Permission::findOne(['name' => $permissionName]);
@@ -24,6 +29,9 @@ class RbacFilter extends ActionFilter
             }
 
             $user = Yii::$app->get('auth')->getCurrentUser();
+            if (!$user) {
+                throw new PermissionDeniedException();
+            }
 
             if (!Yii::$app->get('rbac')->checkPermission($permission, $user)) {
                 throw new PermissionDeniedException();
