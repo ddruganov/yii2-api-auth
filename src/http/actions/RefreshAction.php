@@ -10,7 +10,7 @@ class RefreshAction extends ApiAction
 {
     public function run(): ExecutionResult
     {
-        $refreshToken = $this->getData('refreshToken');
+        $refreshToken = $this->getData('refreshToken', '');
 
         return Yii::$app->get('auth')->refresh($refreshToken);
     }

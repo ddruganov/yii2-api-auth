@@ -17,8 +17,6 @@ class AuthController extends SecureApiController
                 'rbac' => [
                     'class' => RbacFilter::class,
                     'rules' => [
-                        'login' => 'authenticate',
-                        'refresh' => 'authenticate',
                         'logout' => 'authenticate',
                     ]
                 ]
