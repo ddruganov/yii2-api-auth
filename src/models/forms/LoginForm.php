@@ -19,9 +19,17 @@ class LoginForm extends Model
             [['email', 'password'], 'required'],
             [['email', 'password'], 'string'],
             [['email'], 'email'],
-            [['email'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email'], 'message' => 'Такой пользователь уже существует'],
+            [['email'], 'validateEmail'],
             [['password'], 'validatePassword']
         ];
+    }
+
+    public function validateEmail()
+    {
+        $this->user = User::findOne(['email' => $this->email]);
+        if (!$this->user) {
+            $this->addError('email', 'Такого пользователя не существует');
+        }
     }
 
     public function validatePassword()
@@ -50,6 +58,6 @@ class LoginForm extends Model
 
     public function getUser(): ?User
     {
-        return $this->user ??= User::findOne(['email' => $this->email]);
+        return $this->user;
     }
 }
