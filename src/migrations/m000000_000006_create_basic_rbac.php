@@ -56,7 +56,7 @@ class m000000_000006_create_basic_rbac extends Migration
         $userId = (new Query())
             ->select(['id'])
             ->from('user.user')
-            ->where(['email' => 'admin@palax.info'])
+            ->where(['email' => 'admin@yourdomain.com'])
             ->scalar();
         $this->insert('rbac.user_has_role', [
             'user_id' => $userId,
