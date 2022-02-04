@@ -16,12 +16,16 @@ class AuthComponent extends Component
 {
     public function login(User $user): ExecutionResult
     {
+        if (!Yii::$app->get('rbac')->canAuthenticate($user)) {
+            return ExecutionResult::exception('У вас нет прав на выполнение входа в систему');
+        }
+
         $result = $this->createAccessToken($user);
         if (!$result->isSuccessful()) {
             return $result;
         }
 
-        /** @var AccessToken */
+        /** @var \ddruganov\Yii2ApiAuth\models\token\AccessToken */
         $accessToken = $result->getData('model');
 
         $result = $this->createRefreshToken($user, $accessToken);
@@ -29,7 +33,7 @@ class AuthComponent extends Component
             return $result;
         }
 
-        /** @var RefreshToken */
+        /** @var \ddruganov\Yii2ApiAuth\models\token\RefreshToken */
         $refreshToken = $result->getData('model');
 
         return ExecutionResult::success([
