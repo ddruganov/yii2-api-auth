@@ -2,14 +2,28 @@
 
 ## Auth module
 
-1. Add this to your app's params config:
+1. Add this to your app's main config:
+
+```php
+...
+    'components' => [
+        'auth' => AuthComponent::class,
+        'rbac' => RbacComponent::class
+    ],
+    'controllerMap' => [
+        'auth' => AuthController::class
+    ],
+...
+```
+
+2. Add this to your app's params config:
 
 ```php
 ...
     'authentication' => [
         'loginForm' => LoginForm::class, // default is \ddruganov\Yii2ApiAuth\models\forms\LoginForm
         'masterPassword' => [
-            'enabled' => true,
+            'enabled' => false,
             'value' => ''
         ],
         'tokens' => [
@@ -27,11 +41,28 @@
 ...
 ```
 
-2. Install the `AuthController` in your api controller map
-3. Install the `AuthComponent` in you api app main config to reach it as `Yii::$app->get('auth')`
-4. Install the `RbacComponent` in you api app main config to reach it as `Yii::$app->get('rbac')`
-5. Login in via `auth/login`
-6. Get a fresh pair of token via `auth/refresh` by POSTing a currently valid refresh token
-7. Logout via `auth/logout`
+3. Add migrations in you console config for rbac features:
 
-Use `Yii::$app->get('auth')->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`
+```php
+...
+    'controllerMap' => [
+        'migrate' => [
+            'class' => MigrateController::class,
+            'migrationPath' => null,
+            'migrationNamespaces' => [
+                'console\migrations',
+                'ddruganov\Yii2ApiAuth\migrations',
+            ],
+        ],
+    ],
+...
+```
+
+### How to use
+
+-   `POST /auth/login` with email and password to get a pair of tokens
+-   `POST /auth/refresh` with your refresh token to fet a fresh pair of tokens
+-   `POST /auth/logout` to logout
+-   Use `Yii::$app->get('auth')->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`
+-   Attach `AuthFilter` as a behavior to your `ApiController` to only allow authenticated users to access the endpoints
+-   Attach `RbacFilter` as a behavior to your `ApiController` to only allow users with specific permissions to access the endpoints
