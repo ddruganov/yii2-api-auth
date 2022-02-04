@@ -18,7 +18,7 @@ class LoginForm extends Model
         return [
             [['email', 'password'], 'required'],
             [['email', 'password'], 'string'],
-            [['email'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email'], 'message' => 'Такого пользователя не существует'],
+            [['email'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['email' => 'email'], 'message' => 'Такой пользователь уже существует'],
             [['password'], 'validatePassword']
         ];
     }
