@@ -27,7 +27,6 @@ class m000000_000001_create_user_table extends Migration
             'email' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
             'password' => $this->string()->notNull(),
-            'is_banned' => $this->boolean()->notNull()->defaultValue(false),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull(),
         ]);
