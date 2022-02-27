@@ -12,6 +12,10 @@ class RefreshAction extends ApiAction
     {
         $refreshToken = $this->getData('refreshToken', '');
 
-        return Yii::$app->get('auth')->refresh($refreshToken);
+        $result = Yii::$app->get('auth')->refresh($refreshToken);
+
+        !$result->isSuccessful() && Yii::$app->getResponse()->setStatusCode(401);
+
+        return $result;
     }
 }
