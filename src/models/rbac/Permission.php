@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  * @property int $id
  * @property int $app_id
  * @property string $name
- * @property string|null $description
+ * @property string $description
  * @property string $created_at
  * @property string $updated_at
  */
@@ -24,7 +24,7 @@ class Permission extends ActiveRecord
     public function rules()
     {
         return [
-            [['app_id', 'name', 'created_at', 'updated_at'], 'required'],
+            [['app_id', 'name', 'description', 'created_at', 'updated_at'], 'required'],
             [['app_id', 'name', 'description'], 'string'],
             [['app_id'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_id' => 'id']],
             [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
