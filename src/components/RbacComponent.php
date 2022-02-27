@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\components;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\rbac\Permission;
 use ddruganov\Yii2ApiAuth\models\rbac\RoleHasPermission;
 use ddruganov\Yii2ApiAuth\models\rbac\UserHasRole;
@@ -23,8 +24,16 @@ class RbacComponent extends Component
             ->exists();
     }
 
-    public function canAuthenticate(User $user)
+    public function canAuthenticate(User $user, App $app)
     {
-        return $this->checkPermission(Permission::findOne(['name' => 'authenticate']), $user);
+        $permission = Permission::findOne([
+            'app_id' => $app->getId(),
+            'name' => 'authenticate'
+        ]);
+        if (!$permission) {
+            return false;
+        }
+        
+        return $this->checkPermission($permission, $user);
     }
 }

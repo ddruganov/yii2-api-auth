@@ -4,7 +4,7 @@ namespace ddruganov\Yii2ApiAuth\migrations;
 
 use yii\db\Migration;
 
-class m000000_000008_create_refresh_token_table extends Migration
+class m000000_000090_create_refresh_token_table extends Migration
 {
     private function getTableName()
     {
@@ -16,6 +16,7 @@ class m000000_000008_create_refresh_token_table extends Migration
         $this->createTable($this->getTableName(), [
             'id' => $this->primaryKey()->unique(),
             'user_id' => $this->integer()->notNull(),
+            'app_id' => $this->string(36)->notNull(),
             'value' => $this->string(64)->notNull(),
             'access_token_id' => $this->integer()->notNull(),
             'expires_at' => $this->timestamp()->notNull(),

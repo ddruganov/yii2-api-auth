@@ -4,16 +4,16 @@ namespace ddruganov\Yii2ApiAuth\migrations;
 
 use yii\db\Migration;
 
-class m000000_000002_create_role_table extends Migration
+class m000000_000080_create_access_token_table extends Migration
 {
     private function getSchemaName()
     {
-        return 'rbac';
+        return 'auth';
     }
 
     private function getTableName()
     {
-        return $this->getSchemaName() . '.role';
+        return $this->getSchemaName() . '.access_token';
     }
 
     public function safeUp()
@@ -22,8 +22,8 @@ class m000000_000002_create_role_table extends Migration
 
         $this->createTable($this->getTableName(), [
             'id' => $this->primaryKey()->unique(),
-            'name' => $this->string()->unique()->notNull(),
-            'description' => $this->string()->notNull(),
+            'value' => $this->text()->notNull(),
+            'expires_at' => $this->timestamp()->notNull(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull(),
         ]);

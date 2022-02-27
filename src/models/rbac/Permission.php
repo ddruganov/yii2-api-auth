@@ -2,11 +2,13 @@
 
 namespace ddruganov\Yii2ApiAuth\models\rbac;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
  * @property int $id
+ * @property int $app_id
  * @property string $name
  * @property string|null $description
  * @property string $created_at
@@ -22,8 +24,9 @@ class Permission extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'created_at', 'updated_at'], 'required'],
-            [['name', 'description'], 'string'],
+            [['app_id', 'name', 'created_at', 'updated_at'], 'required'],
+            [['app_id', 'name', 'description'], 'string'],
+            [['app_id'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_id' => 'id']],
             [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
         ];
     }
@@ -36,6 +39,16 @@ class Permission extends ActiveRecord
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getAppId()
+    {
+        return $this->app_id;
+    }
+
+    public function getApp()
+    {
+        return App::findOne($this->getAppId());
     }
 
     public function getName()

@@ -4,7 +4,7 @@ namespace ddruganov\Yii2ApiAuth\migrations;
 
 use yii\db\Migration;
 
-class m000000_000003_create_user_has_role_table extends Migration
+class m000000_000040_create_user_has_role_table extends Migration
 {
     private function getTableName()
     {

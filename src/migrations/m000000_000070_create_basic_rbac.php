@@ -2,11 +2,12 @@
 
 namespace ddruganov\Yii2ApiAuth\migrations;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiEssentials\DateHelper;
 use yii\db\Migration;
 use yii\db\Query;
 
-class m000000_000006_create_basic_rbac extends Migration
+class m000000_000070_create_basic_rbac extends Migration
 {
     private const PERMISSIONS = [
         'authenticate' => 'Вход',
@@ -40,6 +41,7 @@ class m000000_000006_create_basic_rbac extends Migration
 
         foreach (self::PERMISSIONS as $name => $description) {
             $this->insert('rbac.permission', [
+                'app_id' => App::default()->getId(),
                 'name' => $name,
                 'description' => $description,
                 'created_at' => DateHelper::now(),

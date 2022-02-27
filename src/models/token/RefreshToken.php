@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models\token;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\User;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use ddruganov\Yii2ApiEssentials\DateHelper;
@@ -10,6 +11,7 @@ use yii\db\ActiveRecord;
 /**
  * @property int $id
  * @property int $user_id
+ * @property string $app_id
  * @property string $value
  * @property int $access_token_id
  * @property string $expires_at
@@ -26,10 +28,11 @@ class RefreshToken extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'value', 'access_token_id', 'expires_at', 'created_at', 'updated_at'], 'required'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id', 'app_id', 'value', 'access_token_id', 'expires_at', 'created_at', 'updated_at'], 'required'],
+            [['user_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
+            [['app_id'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_id' => 'id']],
             [['value'], 'string', 'length' => 64],
-            [['access_token_id'], 'exist', 'skipOnError' => true, 'targetClass' => AccessToken::class, 'targetAttribute' => ['access_token_id' => 'id']],
+            [['access_token_id'], 'exist', 'targetClass' => AccessToken::class, 'targetAttribute' => ['access_token_id' => 'id']],
             [['expires_at', 'created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
         ];
     }
@@ -52,6 +55,16 @@ class RefreshToken extends ActiveRecord
     public function getUser()
     {
         return User::findOne($this->getUserId());
+    }
+
+    public function getAppId()
+    {
+        return $this->app_id;
+    }
+
+    public function getApp()
+    {
+        return App::findOne($this->getAppId());
     }
 
     public function getValue()

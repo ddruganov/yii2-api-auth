@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\components;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use ddruganov\Yii2ApiAuth\models\token\AccessToken;
@@ -14,13 +15,13 @@ use yii\base\Component;
 
 class AuthComponent extends Component
 {
-    public function login(User $user): ExecutionResult
+    public function login(User $user, App $app): ExecutionResult
     {
-        if (!Yii::$app->get('rbac')->canAuthenticate($user)) {
+        if (!Yii::$app->get('rbac')->canAuthenticate($user, $app)) {
             return ExecutionResult::exception('У вас нет прав на выполнение входа в систему');
         }
 
-        $result = $this->createAccessToken($user);
+        $result = $this->createAccessToken($user, $app);
         if (!$result->isSuccessful()) {
             return $result;
         }
@@ -28,7 +29,7 @@ class AuthComponent extends Component
         /** @var \ddruganov\Yii2ApiAuth\models\token\AccessToken */
         $accessToken = $result->getData('model');
 
-        $result = $this->createRefreshToken($user, $accessToken);
+        $result = $this->createRefreshToken($user, $app, $accessToken);
         if (!$result->isSuccessful()) {
             return $result;
         }
@@ -64,7 +65,7 @@ class AuthComponent extends Component
             return ExecutionResult::exception('Ошибка инвалидации токена обновления');
         }
 
-        return $this->login($refreshTokenModel->getUser());
+        return $this->login($refreshTokenModel->getUser(), $refreshTokenModel->getApp());
     }
 
     public function logout()
@@ -106,22 +107,31 @@ class AuthComponent extends Component
 
     public function getCurrentUser(): ?User
     {
-        $jwt = $this->extractAccessTokenFromHeaders();
-        $key = Yii::$app->params['authentication']['tokens']['secret'];
-        $decoded = (array)JWT::decode($jwt, new Key($key, 'HS256'));
-        $userId = $decoded['uid'];
-        return User::findOne($userId);
+        return User::findOne($this->getPayloadValue('uid'));
     }
 
-    private function createAccessToken(User $user): ExecutionResult
+    public function getCurrentApp(): ?App
+    {
+        return App::findOne($this->getPayloadValue('aid'));
+    }
+
+    public function getPayloadValue(string $key)
+    {
+        $jwt = $this->extractAccessTokenFromHeaders();
+        $secret = Yii::$app->params['authentication']['tokens']['secret'];
+        $decoded = (array)JWT::decode($jwt, new Key($secret, 'HS256'));
+        return $decoded[$key];
+    }
+
+    private function createAccessToken(User $user, App $app): ExecutionResult
     {
         $issuedAt = DateHelper::now(null);
         $expiresAt = $issuedAt + Yii::$app->params['authentication']['tokens']['access']['ttl'];
         $payload = [
             'iss' => Yii::$app->params['authentication']['tokens']['access']['issuer'],
-            'aud' => Yii::$app->params['authentication']['tokens']['access']['audience'],
             'iat' => $issuedAt,
-            'uid' => $user->getId()
+            'uid' => $user->getId(),
+            'aid' => $app->getId()
         ];
 
         $key = Yii::$app->params['authentication']['tokens']['secret'];
@@ -138,7 +148,7 @@ class AuthComponent extends Component
         return ExecutionResult::success(['model' => $accessToken]);
     }
 
-    private function createRefreshToken(User $user, AccessToken $accessToken): ExecutionResult
+    private function createRefreshToken(User $user, App $app, AccessToken $accessToken): ExecutionResult
     {
         $issuedAt = DateHelper::now(null);
         $expiresAt = $issuedAt + Yii::$app->params['authentication']['tokens']['refresh']['ttl'];
@@ -146,6 +156,7 @@ class AuthComponent extends Component
 
         $refreshToken = new RefreshToken([
             'user_id' => $user->getId(),
+            'app_id' => $app->getId(),
             'value' => $value,
             'access_token_id' => $accessToken->getId(),
             'expires_at' => DateHelper::formatTimestamp('Y-m-d H:i:s', $expiresAt)

@@ -22,13 +22,19 @@ class RbacFilter extends ActionFilter
         }
 
         try {
+            /** @var \ddruganov\Yii2ApiAuth\components\AuthComponent */
+            $auth = Yii::$app->get('auth');
+
             $permissionName = $this->rules[$this->getActionId($action)] ?? null;
-            $permission = Permission::findOne(['name' => $permissionName]);
+            $permission = Permission::findOne([
+                'app_id' => $auth->getCurrentApp()->getId(),
+                'name' => $permissionName
+            ]);
             if (!$permission) {
                 throw new ModelNotFoundException(Permission::class);
             }
 
-            $user = Yii::$app->get('auth')->getCurrentUser();
+            $user = $auth->getCurrentUser();
             if (!$user) {
                 throw new PermissionDeniedException();
             }

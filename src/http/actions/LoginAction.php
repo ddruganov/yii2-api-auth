@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\http\actions;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\forms\LoginForm;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use ddruganov\Yii2ApiEssentials\http\actions\ApiAction;
@@ -17,7 +18,7 @@ class LoginAction extends ApiAction
             return ExecutionResult::failure($loginForm->getFirstErrors());
         }
 
-        return Yii::$app->get('auth')->login($loginForm->getUser());
+        return Yii::$app->get('auth')->login($loginForm->getUser(), App::default());
     }
 
     private function getLoginForm(): LoginForm
