@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $alias
  * @property string $audience
+ * @property string $url
  * @property bool $is_default
  */
 final class App extends ActiveRecord
@@ -36,6 +37,11 @@ final class App extends ActiveRecord
     public function getAudience()
     {
         return $this->audience;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     public function isDefault()

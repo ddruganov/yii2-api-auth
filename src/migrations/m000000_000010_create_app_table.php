@@ -26,6 +26,7 @@ class m000000_000010_create_app_table extends Migration
             'name' => $this->string()->notNull(),
             'alias' => $this->string()->notNull(),
             'audience' => $this->string()->notNull(),
+            'url' => $this->string()->notNull(),
             'is_default' => $this->boolean()->notNull()->defaultValue(false)
         ]);
 
@@ -35,6 +36,7 @@ class m000000_000010_create_app_table extends Migration
             'name' => 'default',
             'alias' => 'default',
             'audience' => 'localhost',
+            'url' => 'localhost',
             'is_default' => true
         ]);
     }
