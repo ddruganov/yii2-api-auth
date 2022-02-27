@@ -30,8 +30,7 @@
             'secret' => '',
             'access' => [
                 'ttl' => 0, // seconds
-                'issuer' => '',
-                'audience' => ''
+                'issuer' => ''
             ],
             'refresh' => [
                 'ttl' => 0 // seconds
@@ -60,9 +59,15 @@
 
 ### How to use
 
--   `POST /auth/login` with email and password to get a pair of tokens
+-   `POST /auth/login` with email and password to login into the default app and get a pair of tokens
 -   `POST /auth/refresh` with your refresh token to fet a fresh pair of tokens
 -   `POST /auth/logout` to logout
 -   Use `Yii::$app->get('auth')->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`
 -   Attach `AuthFilter` as a behavior to your `ApiController` to only allow authenticated users to access the endpoints
 -   Attach `RbacFilter` as a behavior to your `ApiController` to only allow users with specific permissions to access the endpoints
+
+### Multiple apps
+
+-   Create apps with `\ddruganov\Yii2ApiAuth\models\App`
+-   Use `Yii::$app->get('auth')->login($user, $app)` to get a pair of tokens for the said app
+-   Do not forget to create permissions for newly created apps

@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models\forms;
 
+use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\User;
 use Yii;
 use yii\base\Model;
@@ -59,5 +60,10 @@ class LoginForm extends Model
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function getApp()
+    {
+        return App::default();
     }
 }

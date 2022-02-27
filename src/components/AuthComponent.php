@@ -129,6 +129,7 @@ class AuthComponent extends Component
         $expiresAt = $issuedAt + Yii::$app->params['authentication']['tokens']['access']['ttl'];
         $payload = [
             'iss' => Yii::$app->params['authentication']['tokens']['access']['issuer'],
+            'aud' => $app->getAudience(),
             'iat' => $issuedAt,
             'uid' => $user->getId(),
             'aid' => $app->getId()
