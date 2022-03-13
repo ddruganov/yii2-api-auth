@@ -5,7 +5,7 @@ namespace ddruganov\Yii2ApiAuth\models;
 use yii\db\ActiveRecord;
 
 /**
- * @property string $id
+ * @property string $uuid
  * @property string $name
  * @property string $alias
  * @property string $audience
@@ -19,9 +19,19 @@ final class App extends ActiveRecord
         return 'app.app';
     }
 
-    public function getId()
+    public function rules()
     {
-        return $this->id;
+        return [
+            [['name', 'alias', 'audience', 'url', 'is_default'], 'required'],
+            [['name', 'alias', 'audience', 'url'], 'string'],
+            [['name', 'alias', 'url'], 'unique'],
+            [['is_default'], 'boolean'],
+        ];
+    }
+
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     public function getName()

@@ -21,7 +21,7 @@ class m000000_000030_create_role_table extends Migration
         $this->execute('create schema ' . $this->getSchemaName());
 
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
+            'id' => $this->primaryKey(),
             'name' => $this->string()->unique()->notNull(),
             'description' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->notNull(),

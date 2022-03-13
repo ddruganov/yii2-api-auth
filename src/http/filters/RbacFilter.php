@@ -2,6 +2,8 @@
 
 namespace ddruganov\Yii2ApiAuth\http\filters;
 
+use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
+use ddruganov\Yii2ApiAuth\components\RbacComponentInterface;
 use ddruganov\Yii2ApiAuth\exeptions\PermissionDeniedException;
 use ddruganov\Yii2ApiAuth\models\rbac\Permission;
 use ddruganov\Yii2ApiEssentials\exceptions\ModelNotFoundException;
@@ -17,17 +19,17 @@ class RbacFilter extends ActionFilter
 
     public function beforeAction($action)
     {
-        if (in_array(Yii::$app->controller->action->id, $this->exceptions)) {
+        if (in_array($this->getActionId($action), $this->exceptions)) {
             return parent::beforeAction($action);
         }
 
         try {
             /** @var \ddruganov\Yii2ApiAuth\components\AuthComponent */
-            $auth = Yii::$app->get('auth');
+            $auth = Yii::$app->get(AuthComponentInterface::class);
 
             $permissionName = $this->rules[$this->getActionId($action)] ?? null;
             $permission = Permission::findOne([
-                'app_id' => $auth->getCurrentApp()->getId(),
+                'app_uuid' => $auth->getCurrentApp()->getUuid(),
                 'name' => $permissionName
             ]);
             if (!$permission) {
@@ -39,7 +41,7 @@ class RbacFilter extends ActionFilter
                 throw new PermissionDeniedException();
             }
 
-            if (!Yii::$app->get('rbac')->checkPermission($permission, $user)) {
+            if (!Yii::$app->get(RbacComponentInterface::class)->checkPermission($permission, $user)) {
                 throw new PermissionDeniedException();
             }
         } catch (Throwable $t) {

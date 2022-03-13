@@ -41,7 +41,7 @@ class m000000_000070_create_basic_rbac extends Migration
 
         foreach (self::PERMISSIONS as $name => $description) {
             $this->insert('rbac.permission', [
-                'app_id' => App::default()->getId(),
+                'app_uuid' => App::default()->getUuid(),
                 'name' => $name,
                 'description' => $description,
                 'created_at' => DateHelper::now(),

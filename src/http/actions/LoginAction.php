@@ -17,7 +17,7 @@ class LoginAction extends ApiAction
             return ExecutionResult::failure($loginForm->getFirstErrors());
         }
 
-        return Yii::$app->get('auth')->login($loginForm->getUser(), $loginForm->getApp());
+        return Yii::$app->get(AuthComponentInterface::class)->login($loginForm->getUser(), $loginForm->getApp());
     }
 
     private function getLoginForm(): LoginForm

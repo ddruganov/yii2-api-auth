@@ -23,7 +23,7 @@ class m000000_000020_create_user_table extends Migration
         $this->execute('create schema ' . $this->getSchemaName());
 
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
+            'id' => $this->primaryKey(),
             'email' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
             'password' => $this->string()->notNull(),

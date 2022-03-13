@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
 /**
  * @property int $id
  * @property int $user_id
- * @property string $app_id
+ * @property string $app_uuid
  * @property string $value
  * @property int $access_token_id
  * @property string $expires_at
@@ -28,9 +28,9 @@ class RefreshToken extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'app_id', 'value', 'access_token_id', 'expires_at', 'created_at', 'updated_at'], 'required'],
+            [['user_id', 'app_uuid', 'value', 'access_token_id', 'expires_at', 'created_at', 'updated_at'], 'required'],
             [['user_id'], 'exist', 'targetClass' => User::class, 'targetAttribute' => ['user_id' => 'id']],
-            [['app_id'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_id' => 'id']],
+            [['app_uuid'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_uuid' => 'uuid']],
             [['value'], 'string', 'length' => 64],
             [['access_token_id'], 'exist', 'targetClass' => AccessToken::class, 'targetAttribute' => ['access_token_id' => 'id']],
             [['expires_at', 'created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s'],
@@ -57,14 +57,14 @@ class RefreshToken extends ActiveRecord
         return User::findOne($this->getUserId());
     }
 
-    public function getAppId()
+    public function getAppUuid()
     {
-        return $this->app_id;
+        return $this->app_uuid;
     }
 
     public function getApp()
     {
-        return App::findOne($this->getAppId());
+        return App::findOne($this->getAppUuid());
     }
 
     public function getValue()

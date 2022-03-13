@@ -13,11 +13,11 @@ use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Yii;
 use yii\base\Component;
 
-class AuthComponent extends Component
+class AuthComponent extends Component implements AuthComponentInterface
 {
     public function login(User $user, App $app): ExecutionResult
     {
-        if (!Yii::$app->get('rbac')->canAuthenticate($user, $app)) {
+        if (!Yii::$app->get(RbacComponentInterface::class)->canAuthenticate($user, $app)) {
             return ExecutionResult::exception('У вас нет прав на выполнение входа в систему');
         }
 
@@ -45,7 +45,7 @@ class AuthComponent extends Component
         ]);
     }
 
-    public function verify()
+    public function verify(): bool
     {
         return $this->verifyAccessToken()->isSuccessful();
     }
@@ -68,7 +68,7 @@ class AuthComponent extends Component
         return $this->login($refreshTokenModel->getUser(), $refreshTokenModel->getApp());
     }
 
-    public function logout()
+    public function logout(): ExecutionResult
     {
         $accessTokenVerificationResult = $this->verifyAccessToken();
         if (!$accessTokenVerificationResult->isSuccessful()) {
@@ -98,7 +98,7 @@ class AuthComponent extends Component
         return ExecutionResult::success(['model' => $accessTokenModel]);
     }
 
-    private function extractAccessTokenFromHeaders(): ?string
+    protected function extractAccessTokenFromHeaders(): ?string
     {
         $accessToken = Yii::$app->getRequest()->getHeaders()->get('Authorization');
         $accessToken = str_replace('Bearer', '', $accessToken);
@@ -112,15 +112,15 @@ class AuthComponent extends Component
 
     public function getCurrentApp(): ?App
     {
-        return App::findOne($this->getPayloadValue('aid'));
+        return App::findOne($this->getPayloadValue('auuid'));
     }
 
-    public function getPayloadValue(string $key)
+    public function getPayloadValue(string $key, mixed $default = null): mixed
     {
         $jwt = $this->extractAccessTokenFromHeaders();
         $secret = Yii::$app->params['authentication']['tokens']['secret'];
         $decoded = (array)JWT::decode($jwt, new Key($secret, 'HS256'));
-        return $decoded[$key];
+        return $decoded[$key] ?? $default;
     }
 
     private function createAccessToken(User $user, App $app): ExecutionResult
@@ -132,7 +132,7 @@ class AuthComponent extends Component
             'aud' => $app->getAudience(),
             'iat' => $issuedAt,
             'uid' => $user->getId(),
-            'aid' => $app->getId()
+            'auuid' => $app->getUuid()
         ];
 
         $key = Yii::$app->params['authentication']['tokens']['secret'];
@@ -157,7 +157,7 @@ class AuthComponent extends Component
 
         $refreshToken = new RefreshToken([
             'user_id' => $user->getId(),
-            'app_id' => $app->getId(),
+            'app_uuid' => $app->getUuid(),
             'value' => $value,
             'access_token_id' => $accessToken->getId(),
             'expires_at' => DateHelper::formatTimestamp('Y-m-d H:i:s', $expiresAt)

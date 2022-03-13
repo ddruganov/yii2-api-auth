@@ -22,7 +22,7 @@ class m000000_000010_create_app_table extends Migration
         $this->execute("create schema {$this->getSchemaName()}");
 
         $this->createTable($this->getTableName(), [
-            'id' => $this->string()->notNull()->defaultValue(new Expression('gen_random_uuid()')),
+            'uuid' => $this->string()->notNull()->defaultValue(new Expression('gen_random_uuid()')),
             'name' => $this->string()->notNull(),
             'alias' => $this->string()->notNull(),
             'audience' => $this->string()->notNull(),
@@ -30,7 +30,7 @@ class m000000_000010_create_app_table extends Migration
             'is_default' => $this->boolean()->notNull()->defaultValue(false)
         ]);
 
-        $this->addPrimaryKey('app_pk', $this->getTableName(), 'id');
+        $this->addPrimaryKey('app_pk', $this->getTableName(), 'uuid');
 
         $this->insert($this->getTableName(), [
             'name' => 'default',

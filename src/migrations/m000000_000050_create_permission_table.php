@@ -14,16 +14,16 @@ class m000000_000050_create_permission_table extends Migration
     public function safeUp()
     {
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
-            'app_id' => $this->string()->notNull(),
+            'id' => $this->primaryKey(),
+            'app_uuid' => $this->string()->notNull(),
             'name' => $this->string()->notNull(),
             'description' => $this->string()->notNull(),
             'created_at' => $this->timestamp()->notNull(),
             'updated_at' => $this->timestamp()->notNull(),
         ]);
 
-        $this->addForeignKey('fk_app', $this->getTableName(), 'app_id', 'app.app', 'id', 'cascade');
-        $this->createIndex('app_id_name_idx', $this->getTableName(), ['app_id', 'name'], true);
+        $this->addForeignKey('fk_app', $this->getTableName(), 'app_uuid', 'app.app', 'uuid', 'cascade');
+        $this->createIndex('app_uuid_name_idx', $this->getTableName(), ['app_uuid', 'name'], true);
     }
 
     public function safeDown()

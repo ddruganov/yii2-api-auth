@@ -3,8 +3,19 @@ version: "3.8"
 services:
   yii2.api.auth.php:
     container_name: yii2.api.auth.php
-    build: .
+    build: ./docker/php
     volumes:
       - ./:/app
+    depends_on:
+      - yii2.api.auth.db
     restart: unless-stopped
     command: [ "tail", "-f", "/dev/null" ]
+
+  yii2.api.auth.db:
+    container_name: yii2.api.auth.db
+    build: ./docker/postgres
+    ports:
+      - 5432:5432
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword

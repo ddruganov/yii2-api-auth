@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\http\filters;
 
+use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\exceptions\UnauthenticatedException;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Throwable;
@@ -19,7 +20,7 @@ class AuthFilter extends ActionFilter
         }
 
         try {
-            if (!Yii::$app->get('auth')->verify()) {
+            if (!Yii::$app->get(AuthComponentInterface::class)->verify()) {
                 throw new UnauthenticatedException();
             }
         } catch (Throwable $t) {

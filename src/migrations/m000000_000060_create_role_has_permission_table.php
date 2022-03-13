@@ -14,7 +14,7 @@ class m000000_000060_create_role_has_permission_table extends Migration
     public function safeUp()
     {
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
+            'id' => $this->primaryKey(),
             'role_id' => $this->integer()->notNull(),
             'permission_id' => $this->integer()->notNull()
         ]);

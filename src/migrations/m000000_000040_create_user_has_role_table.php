@@ -14,7 +14,7 @@ class m000000_000040_create_user_has_role_table extends Migration
     public function safeUp()
     {
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
+            'id' => $this->primaryKey(),
             'user_id' => $this->integer(),
             'role_id' => $this->integer(),
         ]);

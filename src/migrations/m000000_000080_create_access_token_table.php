@@ -21,7 +21,7 @@ class m000000_000080_create_access_token_table extends Migration
         $this->execute('create schema ' . $this->getSchemaName());
 
         $this->createTable($this->getTableName(), [
-            'id' => $this->primaryKey()->unique(),
+            'id' => $this->primaryKey(),
             'value' => $this->text()->notNull(),
             'expires_at' => $this->timestamp()->notNull(),
             'created_at' => $this->timestamp()->notNull(),

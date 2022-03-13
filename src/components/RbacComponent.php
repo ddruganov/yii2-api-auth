@@ -10,9 +10,9 @@ use ddruganov\Yii2ApiAuth\models\User;
 use yii\base\Component;
 use yii\db\Query;
 
-class RbacComponent extends Component
+class RbacComponent extends Component implements RbacComponentInterface
 {
-    public function checkPermission(Permission $permission, User $user)
+    public function checkPermission(Permission $permission, User $user): bool
     {
         return (new Query())
             ->from(['uhr' => UserHasRole::tableName()])
@@ -24,16 +24,16 @@ class RbacComponent extends Component
             ->exists();
     }
 
-    public function canAuthenticate(User $user, App $app)
+    public function canAuthenticate(User $user, App $app): bool
     {
         $permission = Permission::findOne([
-            'app_id' => $app->getId(),
+            'app_uuid' => $app->getUuid(),
             'name' => 'authenticate'
         ]);
         if (!$permission) {
             return false;
         }
-        
+
         return $this->checkPermission($permission, $user);
     }
 }

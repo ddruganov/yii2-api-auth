@@ -1,35 +1,41 @@
 {
-  "name": "ddruganov/yii2-api-auth",
-  "description": "Authentication tools for yii2",
-  "type": "yii2-extension",
-  "require": {
-    "yiisoft/yii2": "^2.0",
-    "firebase/php-jwt": "^6.0",
-    "ddruganov/yii2-api-essentials": "^1"
-  },
-  "autoload": {
-    "psr-4": {
-      "ddruganov\\Yii2ApiAuth\\": "src/"
+    "name": "ddruganov/yii2-api-auth",
+    "description": "Authentication tools for yii2",
+    "type": "yii2-extension",
+    "require": {
+        "yiisoft/yii2": "^2.0",
+        "firebase/php-jwt": "^6.0",
+        "ddruganov/yii2-api-essentials": "^1"
+    },
+    "autoload": {
+        "psr-4": {
+            "ddruganov\\Yii2ApiAuth\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ddruganov",
+            "email": "ddruganov@bk.ru"
+        }
+    ],
+    "fxp-asset": {
+        "enabled": false
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "yiisoft/yii2-composer": true
+        }
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "fakerphp/faker": "^1.19",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0"
     }
-  },
-  "authors": [
-    {
-      "name": "ddruganov",
-      "email": "ddruganov@bk.ru"
-    }
-  ],
-  "fxp-asset": {
-    "enabled": false
-  },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
-    }
-  ],
-  "config": {
-    "allow-plugins": {
-      "yiisoft/yii2-composer": true
-    }
-  }
 }

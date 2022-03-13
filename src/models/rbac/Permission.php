@@ -8,7 +8,7 @@ use yii\db\ActiveRecord;
 
 /**
  * @property int $id
- * @property int $app_id
+ * @property int $app_uuid
  * @property string $name
  * @property string $description
  * @property string $created_at
@@ -24,9 +24,9 @@ class Permission extends ActiveRecord
     public function rules()
     {
         return [
-            [['app_id', 'name', 'description', 'created_at', 'updated_at'], 'required'],
-            [['app_id', 'name', 'description'], 'string'],
-            [['app_id'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_id' => 'id']],
+            [['app_uuid', 'name', 'description', 'created_at', 'updated_at'], 'required'],
+            [['app_uuid', 'name', 'description'], 'string'],
+            [['app_uuid'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_uuid' => 'uuid']],
             [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
         ];
     }
@@ -41,14 +41,14 @@ class Permission extends ActiveRecord
         return $this->id;
     }
 
-    public function getAppId()
+    public function getAppUuid()
     {
-        return $this->app_id;
+        return $this->app_uuid;
     }
 
     public function getApp()
     {
-        return App::findOne($this->getAppId());
+        return App::findOne($this->getAppUuid());
     }
 
     public function getName()

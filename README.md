@@ -7,8 +7,8 @@
 ```php
 ...
     'components' => [
-        'auth' => AuthComponent::class,
-        'rbac' => RbacComponent::class
+        AuthComponentInterface::class => AuthComponent::class,
+        RbacComponentInterface::class => RbacComponent::class
     ],
     'controllerMap' => [
         'auth' => AuthController::class
@@ -62,12 +62,12 @@
 -   `POST /auth/login` with email and password to login into the default app and get a pair of tokens
 -   `POST /auth/refresh` with your refresh token to fet a fresh pair of tokens
 -   `POST /auth/logout` to logout
--   Use `Yii::$app->get('auth')->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`
+-   Use `Yii::$app->get(AuthComponentInterface::class)->getCurrentUser()` to get the currently logged in `ddruganov\Yii2ApiEssentials\auth\models\User`
 -   Attach `AuthFilter` as a behavior to your `ApiController` to only allow authenticated users to access the endpoints
 -   Attach `RbacFilter` as a behavior to your `ApiController` to only allow users with specific permissions to access the endpoints
 
 ### Multiple apps
 
 -   Create apps with `\ddruganov\Yii2ApiAuth\models\App`
--   Use `Yii::$app->get('auth')->login($user, $app)` to get a pair of tokens for the said app
+-   Use `Yii::$app->get(AuthComponentInterface::class)->login($user, $app)` to get a pair of tokens for the said app
 -   Do not forget to create permissions for newly created apps
