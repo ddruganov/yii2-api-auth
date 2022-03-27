@@ -15,7 +15,7 @@ class AuthFilter extends ActionFilter
 
     public function beforeAction($action)
     {
-        if (in_array(Yii::$app->controller->action->id, $this->exceptions)) {
+        if (in_array($this->getActionId($action), $this->exceptions)) {
             return parent::beforeAction($action);
         }
 

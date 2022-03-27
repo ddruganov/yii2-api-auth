@@ -27,7 +27,5 @@ class m000000_000040_create_user_has_role_table extends Migration
     public function safeDown()
     {
         $this->dropTable($this->getTableName());
-
-        return true;
     }
 }

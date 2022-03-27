@@ -10,41 +10,39 @@ final class RbacComponentTest extends BaseUnitTest
 {
     public function testWithoutPermission()
     {
-        $permission = $this->faker()->permission(
-            $this->faker()->asciify(),
-            $this->faker()->app()
+        $permission = $this->getFaker()->permission(
+            $this->getFaker()->asciify(),
+            $this->getFaker()->app()
         );
-        $user = $this->faker()->user();
+        $user = $this->getFaker()->user();
         $result = $this->getRbac()->checkPermission($permission, $user);
         $this->assertFalse($result);
     }
 
     public function testWithPermission()
     {
-        $permission = $this->faker()->permission(
-            $this->faker()->asciify(),
-            $this->faker()->app()
+        $permission = $this->getFaker()->permission(
+            $this->getFaker()->asciify(),
+            $this->getFaker()->app()
         );
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $role = $this->getFaker()->role('test', [$permission]);
+        $user = $this->getFaker()->user($role);
         $result = $this->getRbac()->checkPermission($permission, $user);
         $this->assertTrue($result);
     }
 
     public function testCannotAuthenticate()
     {
-        $app = $this->faker()->app();
-        $user = $this->faker()->user();
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->user();
         $result = $this->getRbac()->canAuthenticate($user, $app);
         $this->assertFalse($result);
     }
 
     public function testCanAuthenticate()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $result = $this->getRbac()->canAuthenticate($user, $app);
         $this->assertTrue($result);

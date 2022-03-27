@@ -2,33 +2,16 @@
 
 namespace tests\unit;
 
-use Codeception\Test\Unit;
-use tests\unit\UseFaker;
-use Yii;
-use yii\db\Transaction;
-use yii\helpers\Console;
-use yii\helpers\VarDumper;
+use ddruganov\Yii2ApiEssentials\testing\UnitTest;
+use tests\components\faker\FakerFactory;
+use tests\components\faker\Generator;
 
-abstract class BaseUnitTest extends Unit
+abstract class BaseUnitTest extends UnitTest
 {
-    use UseFaker;
+    public string $fakerFactoryClass = FakerFactory::class;
 
-    private Transaction $transaction;
-
-    protected function _setUp()
+    protected function getFaker(): Generator
     {
-        $this->transaction = Yii::$app->getDb()->beginTransaction();
-        parent::_setUp();
-    }
-
-    protected function _tearDown()
-    {
-        parent::_tearDown();
-        $this->transaction->rollBack();
-    }
-
-    protected function log(mixed $data)
-    {
-        Console::output(VarDumper::dumpAsString($data));
+        return parent::getFaker();
     }
 }

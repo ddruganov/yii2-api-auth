@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string $updated_at
  */
-class AccessToken extends ActiveRecord
+final class AccessToken extends ActiveRecord
 {
     public static function tableName()
     {

@@ -37,7 +37,5 @@ class m000000_000090_create_refresh_token_table extends Migration
     public function safeDown()
     {
         $this->dropTable($this->getTableName());
-
-        return true;
     }
 }

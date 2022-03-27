@@ -12,7 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $created_at
  * @property string $updated_at
  */
-class Role extends ActiveRecord
+final class Role extends ActiveRecord
 {
     public static function tableName()
     {

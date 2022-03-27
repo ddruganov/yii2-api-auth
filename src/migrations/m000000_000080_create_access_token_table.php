@@ -33,7 +33,5 @@ class m000000_000080_create_access_token_table extends Migration
     {
         $this->dropTable($this->getTableName());
         $this->execute('drop schema ' . $this->getSchemaName());
-
-        return true;
     }
 }

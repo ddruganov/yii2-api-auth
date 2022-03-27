@@ -1,4 +1,4 @@
-FROM php:8.0-alpine
+FROM php:8.1-alpine
 
 RUN apk add libmcrypt-dev $PHPIZE_DEPS zsh postgresql-dev
 RUN pecl install mcrypt

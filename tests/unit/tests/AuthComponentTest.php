@@ -11,76 +11,55 @@ final class AuthComponentTest extends BaseUnitTest
 {
     public function testLoginWithoutPermission()
     {
-        $user = $this->faker()->user();
-        $app = $this->faker()->app();
+        $user = $this->getFaker()->user();
+        $app = $this->getFaker()->app();
 
         $result = $this->getAuth()->login($user, $app);
-        $this->assertFalse($result->isSuccessful());
-        $this->assertNotNull($result->getException());
-        $this->assertEmpty($result->getErrors());
-        $this->assertNull($result->getData());
+        $this->assertExecutionResultException($result);
     }
 
     public function testLoginWithPermission()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $result = $this->getAuth()->login($user, $app);
-        $this->assertTrue($result->isSuccessful());
-        $this->assertNull($result->getException());
-        $this->assertEmpty($result->getErrors());
-        $this->assertNotEmpty($result->getData());
-        $this->assertNotEmpty($result->getData('tokens'));
+        $this->assertExecutionResultSuccessful($result);
         $this->assertNotNull($result->getData('tokens.access'));
         $this->assertNotNull($result->getData('tokens.refresh'));
     }
 
     public function testLogout()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->accessToken = $loginResult->getData('tokens.access');
+        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
         $logoutResult = $this->getAuth()->logout();
-        $this->assertTrue($logoutResult->isSuccessful());
-        $this->assertNull($logoutResult->getException());
-        $this->assertEmpty($logoutResult->getErrors());
+        $this->assertExecutionResultSuccessful($logoutResult);
         $this->assertNull($logoutResult->getData());
     }
 
     public function testRefresh()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
         $refreshResult = $this->getAuth()->refresh($loginResult->getData('tokens.refresh'));
-        $this->assertTrue($refreshResult->isSuccessful());
-        $this->assertNull($refreshResult->getException());
-        $this->assertEmpty($refreshResult->getErrors());
-        $this->assertNotEmpty($refreshResult->getData());
-        $this->assertNotEmpty($refreshResult->getData('tokens'));
+        $this->assertExecutionResultSuccessful($refreshResult);
         $this->assertNotNull($refreshResult->getData('tokens.access'));
         $this->assertNotNull($refreshResult->getData('tokens.refresh'));
     }
 
     public function testVerify()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->accessToken = $loginResult->getData('tokens.access');
+        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
 
         $this->assertTrue(
             $this->getAuth()->verify()
@@ -89,13 +68,11 @@ final class AuthComponentTest extends BaseUnitTest
 
     public function testPayloadGetters()
     {
-        $app = $this->faker()->app();
-        $permission = $this->faker()->permission('authenticate', $app);
-        $role = $this->faker()->role('test', [$permission]);
-        $user = $this->faker()->user($role);
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->accessToken = $loginResult->getData('tokens.access');
+        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
 
         $this->assertNotNull(
             $this->getAuth()->getCurrentUser()

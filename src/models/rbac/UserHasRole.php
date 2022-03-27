@@ -10,7 +10,7 @@ use yii\db\ActiveRecord;
  * @property int $user_id
  * @property int $role_id
  */
-class UserHasRole extends ActiveRecord
+final class UserHasRole extends ActiveRecord
 {
     public static function tableName()
     {

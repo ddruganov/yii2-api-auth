@@ -3,16 +3,18 @@
 namespace tests\components;
 
 use ddruganov\Yii2ApiAuth\components\AuthComponent;
-use tests\unit\UseFaker;
 
-class MockAuthComponent extends AuthComponent
+final class MockAuthComponent extends AuthComponent
 {
-    use UseFaker;
-
-    public string $accessToken;
+    private string $accessToken;
 
     protected function extractAccessTokenFromHeaders(): string
     {
         return $this->accessToken;
+    }
+
+    public function setAccessToken(string $value)
+    {
+        $this->accessToken = $value;
     }
 }

@@ -29,7 +29,5 @@ class m000000_000050_create_permission_table extends Migration
     public function safeDown()
     {
         $this->dropTable($this->getTableName());
-
-        return true;
     }
 }

@@ -13,14 +13,15 @@ use Faker\Generator as FakerGenerator;
 use Yii;
 use yii\helpers\VarDumper;
 
-class Generator extends FakerGenerator
+final class Generator extends FakerGenerator
 {
-    public function user(?Role $role = null)
+    public function user(?Role $role = null, ?string $password = null)
     {
+        $password ??= $this->password();
         $model = new User([
             'email' => $this->email(),
             'name' => $this->name(),
-            'password' => Yii::$app->getSecurity()->generatePasswordHash($this->password())
+            'password' => Yii::$app->getSecurity()->generatePasswordHash($password)
         ]);
         if (!$model->save()) {
             throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));
@@ -84,5 +85,12 @@ class Generator extends FakerGenerator
         }
 
         return $model;
+    }
+
+    public function userWithAuthenticatePermission(App $app, ?string $password = null)
+    {
+        $permission = $this->permission('authenticate', $app);
+        $role = $this->role('test', [$permission]);
+        return $this->user($role, $password);
     }
 }

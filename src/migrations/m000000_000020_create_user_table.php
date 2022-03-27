@@ -44,7 +44,5 @@ class m000000_000020_create_user_table extends Migration
     {
         $this->dropTable($this->getTableName());
         $this->execute('drop schema ' . $this->getSchemaName());
-
-        return true;
     }
 }

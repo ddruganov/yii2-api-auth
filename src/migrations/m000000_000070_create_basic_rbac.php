@@ -28,7 +28,6 @@ class m000000_000070_create_basic_rbac extends Migration
         'user.delete' => 'Удаление пользователей',
     ];
 
-
     public function safeUp()
     {
         $this->insert('rbac.role', [
@@ -73,7 +72,5 @@ class m000000_000070_create_basic_rbac extends Migration
         foreach (array_keys(self::PERMISSIONS) as $name) {
             $this->delete('rbac.permission', ['name' => $name]);
         }
-
-        return true;
     }
 }

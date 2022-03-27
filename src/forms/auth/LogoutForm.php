@@ -1,15 +1,15 @@
 <?php
 
-namespace ddruganov\Yii2ApiAuth\http\actions;
+namespace ddruganov\Yii2ApiAuth\forms\auth;
 
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
-use ddruganov\Yii2ApiEssentials\http\actions\ApiAction;
+use ddruganov\Yii2ApiEssentials\forms\Form;
 use Yii;
 
-class LogoutAction extends ApiAction
+class LogoutForm extends Form
 {
-    public function run(): ExecutionResult
+    protected function _run(): ExecutionResult
     {
         return Yii::$app->get(AuthComponentInterface::class)->logout();
     }

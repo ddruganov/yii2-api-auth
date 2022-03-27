@@ -9,7 +9,7 @@ use yii\db\ActiveRecord;
  * @property int $role_id
  * @property int $permission_id
  */
-class RoleHasPermission extends ActiveRecord
+final class RoleHasPermission extends ActiveRecord
 {
     public static function tableName()
     {

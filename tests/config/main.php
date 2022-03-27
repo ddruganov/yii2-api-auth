@@ -36,8 +36,8 @@ return [
         'authentication' => [
             'loginForm' => LoginForm::class, // default is \ddruganov\Yii2ApiAuth\models\forms\LoginForm
             'masterPassword' => [
-                'enabled' => false,
-                'value' => ''
+                'enabled' => true,
+                'value' => 'hello123'
             ],
             'tokens' => [
                 'secret' => 'hello world',

@@ -4,7 +4,7 @@ namespace tests\components\faker;
 
 use Faker\Factory as BaseFakerFactory;
 
-class FakerFactory extends BaseFakerFactory
+final class FakerFactory extends BaseFakerFactory
 {
     public static function create($locale = self::DEFAULT_LOCALE)
     {
