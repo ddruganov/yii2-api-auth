@@ -3,6 +3,7 @@
 namespace tests\unit\tests;
 
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
+use ddruganov\Yii2ApiAuth\models\token\RefreshToken;
 use tests\components\MockAuthComponent;
 use tests\unit\BaseUnitTest;
 use Yii;
@@ -80,6 +81,32 @@ final class AuthComponentTest extends BaseUnitTest
         $this->assertNotNull(
             $this->getAuth()->getCurrentApp()
         );
+    }
+
+    public function testMaxAllowedSessions()
+    {
+        $maxAllowedSessions = Yii::$app->params['authentication']['maxActiveSessions'];
+        $sessionsToCreate = $maxAllowedSessions + $this->getFaker()->numberBetween(1, 3);
+
+        $app = $this->getFaker()->app();
+        $user = $this->getFaker()->userWithAuthenticatePermission($app);
+
+        $refreshTokenCountQuery = RefreshToken::find()
+            ->expired(false)
+            ->byUserId($user->getId())
+            ->byAppUuid($app->getUuid());
+
+        for ($index = 1; $index <= $sessionsToCreate; $index++) {
+            $this->getAuth()->login($user, $app);
+
+            $activeRefreshTokenCount = (clone $refreshTokenCountQuery)->count();
+
+            $countShouldBe = $index <= $maxAllowedSessions
+                ? $index
+                : $maxAllowedSessions;
+
+            $this->assertTrue($activeRefreshTokenCount === $countShouldBe);
+        }
     }
 
     private function getAuth(): MockAuthComponent

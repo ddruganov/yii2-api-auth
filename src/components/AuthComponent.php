@@ -21,6 +21,11 @@ class AuthComponent extends Component implements AuthComponentInterface
             return ExecutionResult::exception('У вас нет прав на выполнение входа в систему');
         }
 
+        $result = $this->expirePreviousSessions($user, $app);
+        if (!$result->isSuccessful()) {
+            return $result;
+        }
+
         $result = $this->createAccessToken($user, $app);
         if (!$result->isSuccessful()) {
             return $result;
@@ -43,6 +48,33 @@ class AuthComponent extends Component implements AuthComponentInterface
                 'refresh' => $refreshToken->getValue()
             ]
         ]);
+    }
+
+    private function expirePreviousSessions(User $user, App $app): ExecutionResult
+    {
+        $refreshTokenQuery = RefreshToken::find()
+            ->expired(false)
+            ->byUserId($user->getId())
+            ->byAppUuid($app->getUuid());
+
+        $activeRefreshTokenCount = (clone $refreshTokenQuery)->count();
+        $maxAllowedCount = Yii::$app->params['authentication']['maxActiveSessions'] - 1; // subtract one because we havent yet authenticated the user with a new request
+
+        if ($activeRefreshTokenCount <= $maxAllowedCount) {
+            return ExecutionResult::success();
+        }
+
+        $oldRefreshTokens = (clone $refreshTokenQuery)
+            ->oldestFirst()
+            ->limit($activeRefreshTokenCount - $maxAllowedCount)
+            ->all();
+        foreach ($oldRefreshTokens as $oldRefreshToken) {
+            if ($oldRefreshToken->expire() === false) {
+                return ExecutionResult::exception('Ошибка деактивации предыдущих сессий');
+            }
+        }
+
+        return ExecutionResult::success();
     }
 
     public function verify(): bool

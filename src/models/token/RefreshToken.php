@@ -3,6 +3,7 @@
 namespace ddruganov\Yii2ApiAuth\models\token;
 
 use ddruganov\Yii2ApiAuth\models\App;
+use ddruganov\Yii2ApiAuth\models\token\queries\RefreshTokenQuery;
 use ddruganov\Yii2ApiAuth\models\User;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use ddruganov\Yii2ApiEssentials\DateHelper;
@@ -23,6 +24,11 @@ final class RefreshToken extends ActiveRecord
     public static function tableName()
     {
         return 'auth.refresh_token';
+    }
+
+    public static function find(): RefreshTokenQuery
+    {
+        return new RefreshTokenQuery();
     }
 
     public function rules()

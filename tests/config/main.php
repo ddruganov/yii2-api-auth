@@ -48,7 +48,8 @@ return [
                 'refresh' => [
                     'ttl' => 60 * 60 * 30 // seconds
                 ]
-            ]
+            ],
+            'maxActiveSessions' => 3
         ]
     ]
 ];
