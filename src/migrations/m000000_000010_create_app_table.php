@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\migrations;
 
+use ddruganov\Yii2ApiEssentials\DateHelper;
 use yii\db\Expression;
 use yii\db\Migration;
 
@@ -26,8 +27,9 @@ class m000000_000010_create_app_table extends Migration
             'name' => $this->string()->notNull(),
             'alias' => $this->string()->notNull(),
             'audience' => $this->string()->notNull(),
-            'url' => $this->string()->notNull(),
-            'is_default' => $this->boolean()->notNull()->defaultValue(false)
+            'base_url' => $this->string()->notNull(),
+            'is_default' => $this->boolean()->null()->defaultValue(null)->unique(),
+            'created_at' => $this->timestamp()->notNull()
         ]);
 
         $this->addPrimaryKey('app_pk', $this->getTableName(), 'uuid');
@@ -36,8 +38,9 @@ class m000000_000010_create_app_table extends Migration
             'name' => 'default',
             'alias' => 'default',
             'audience' => 'localhost',
-            'url' => 'localhost',
-            'is_default' => true
+            'base_url' => 'localhost',
+            'is_default' => true,
+            'created_at' => DateHelper::now()
         ]);
     }
 

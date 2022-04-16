@@ -44,8 +44,8 @@ final class Generator extends FakerGenerator
             'name' => $this->name(),
             'alias' => $this->asciify(),
             'audience' => $this->asciify(),
-            'url' => $this->url(),
-            'is_default' => false
+            'base_url' => $this->url(),
+            'is_default' => null
         ]);
         if (!$model->save()) {
             throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));

@@ -4,10 +4,8 @@ namespace ddruganov\Yii2ApiAuth\models\token\queries;
 
 use ddruganov\Yii2ApiAuth\models\token\RefreshToken;
 use ddruganov\Yii2ApiEssentials\DateHelper;
-use ddruganov\Yii2ApiEssentials\traits\Activity;
 use ddruganov\Yii2ApiEssentials\traits\Sorting;
 use yii\db\ActiveQuery;
-use yii\db\Expression;
 use yii\db\QueryInterface;
 
 final class RefreshTokenQuery extends ActiveQuery
