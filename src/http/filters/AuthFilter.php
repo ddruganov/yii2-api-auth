@@ -9,7 +9,7 @@ use Throwable;
 use Yii;
 use yii\base\ActionFilter;
 
-class AuthFilter extends ActionFilter
+final class AuthFilter extends ActionFilter
 {
     public array $exceptions = [];
 

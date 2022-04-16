@@ -86,11 +86,11 @@ class AuthComponent extends Component implements AuthComponentInterface
     {
         $refreshTokenModel = RefreshToken::findOne(['value' => $refreshToken]);
         if (!$refreshTokenModel) {
-            return ExecutionResult::exception('Токен обновления недействителен');
+            return ExecutionResult::failure(['refreshToken' => 'Токен обновления недействителен']);
         }
 
         if ($refreshTokenModel->isExpired()) {
-            return ExecutionResult::exception('Срок годности токена обновления истёк');
+            return ExecutionResult::failure(['refreshToken' => 'Срок годности токена обновления истёк']);
         }
 
         if (!$refreshTokenModel->expire()) {
@@ -120,11 +120,11 @@ class AuthComponent extends Component implements AuthComponentInterface
         $accessToken = $this->extractAccessTokenFromHeaders();
         $accessTokenModel = AccessToken::findOne(['value' => $accessToken]);
         if (!$accessTokenModel) {
-            return ExecutionResult::exception('Токен доступа недействителен');
+            return ExecutionResult::failure(['accessToken' => 'Токен доступа недействителен']);
         }
 
         if ($accessTokenModel->isExpired()) {
-            return ExecutionResult::exception('Срок годности токена доступа истёк');
+            return ExecutionResult::failure(['accessToken' => 'Срок годности токена доступа истёк']);
         }
 
         return ExecutionResult::success(['model' => $accessTokenModel]);
@@ -174,7 +174,7 @@ class AuthComponent extends Component implements AuthComponentInterface
             'value' => $jwt,
             'expires_at' => DateHelper::formatTimestamp('Y-m-d H:i:s', $expiresAt)
         ]);
-        if (!$accessToken->save() || !$accessToken->refresh()) {
+        if (!$accessToken->save()) {
             return ExecutionResult::exception('Ошибка создания токена доступа');
         }
 
@@ -194,7 +194,7 @@ class AuthComponent extends Component implements AuthComponentInterface
             'access_token_id' => $accessToken->getId(),
             'expires_at' => DateHelper::formatTimestamp('Y-m-d H:i:s', $expiresAt)
         ]);
-        if (!$refreshToken->save() || !$refreshToken->refresh()) {
+        if (!$refreshToken->save()) {
             return ExecutionResult::exception('Ошибка создания токена обновления');
         }
 

@@ -12,7 +12,7 @@ use Throwable;
 use Yii;
 use yii\base\ActionFilter;
 
-class RbacFilter extends ActionFilter
+final class RbacFilter extends ActionFilter
 {
     public array $rules = [];
     public array $exceptions = [];
