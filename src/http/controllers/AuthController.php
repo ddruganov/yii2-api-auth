@@ -9,7 +9,7 @@ use ddruganov\Yii2ApiAuth\http\filters\RbacFilter;
 use ddruganov\Yii2ApiEssentials\http\actions\FormAction;
 use yii\helpers\ArrayHelper;
 
-final class AuthController extends SecureApiController
+class AuthController extends SecureApiController
 {
     public function behaviors()
     {
