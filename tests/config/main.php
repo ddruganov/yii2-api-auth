@@ -4,7 +4,6 @@ use ddruganov\Yii2ApiAuth\components\AccessTokenProviderInterface;
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\components\RbacComponent;
 use ddruganov\Yii2ApiAuth\components\RbacComponentInterface;
-use ddruganov\Yii2ApiAuth\models\forms\LoginForm;
 use tests\components\MockAccessTokenProvider;
 use tests\components\MockAuthComponent;
 use yii\console\controllers\MigrateController;
@@ -37,7 +36,6 @@ return [
     ],
     'params' => [
         'authentication' => [
-            'loginForm' => LoginForm::class, // default is \ddruganov\Yii2ApiAuth\models\forms\LoginForm
             'masterPassword' => [
                 'enabled' => true,
                 'value' => 'hello123'
