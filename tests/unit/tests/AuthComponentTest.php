@@ -2,9 +2,10 @@
 
 namespace tests\unit\tests;
 
+use ddruganov\Yii2ApiAuth\components\AccessTokenProviderInterface;
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\models\token\RefreshToken;
-use tests\components\MockAuthComponent;
+use tests\components\MockAccessTokenProvider;
 use tests\unit\BaseUnitTest;
 use Yii;
 
@@ -36,7 +37,7 @@ final class AuthComponentTest extends BaseUnitTest
         $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
+        $this->getAccessTokenProvider()->setAccessToken($loginResult->getData('tokens.access'));
         $logoutResult = $this->getAuth()->logout();
         $this->assertExecutionResultSuccessful($logoutResult);
         $this->assertNull($logoutResult->getData());
@@ -60,7 +61,7 @@ final class AuthComponentTest extends BaseUnitTest
         $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
+        $this->getAccessTokenProvider()->setAccessToken($loginResult->getData('tokens.access'));
 
         $this->assertTrue(
             $this->getAuth()->verify()
@@ -73,7 +74,7 @@ final class AuthComponentTest extends BaseUnitTest
         $user = $this->getFaker()->userWithAuthenticatePermission($app);
 
         $loginResult = $this->getAuth()->login($user, $app);
-        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
+        $this->getAccessTokenProvider()->setAccessToken($loginResult->getData('tokens.access'));
 
         $this->assertNotNull(
             $this->getAuth()->getCurrentUser()
@@ -109,8 +110,13 @@ final class AuthComponentTest extends BaseUnitTest
         }
     }
 
-    private function getAuth(): MockAuthComponent
+    private function getAuth(): AuthComponentInterface
     {
         return Yii::$app->get(AuthComponentInterface::class);
+    }
+
+    private function getAccessTokenProvider(): MockAccessTokenProvider
+    {
+        return Yii::$app->get(AccessTokenProviderInterface::class);
     }
 }

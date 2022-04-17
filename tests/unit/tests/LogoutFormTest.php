@@ -2,10 +2,11 @@
 
 namespace tests\unit\tests;
 
+use ddruganov\Yii2ApiAuth\components\AccessTokenProviderInterface;
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\forms\auth\LoginForm;
 use ddruganov\Yii2ApiAuth\forms\auth\LogoutForm;
-use tests\components\MockAuthComponent;
+use tests\components\MockAccessTokenProvider;
 use tests\unit\BaseUnitTest;
 use Yii;
 
@@ -13,7 +14,7 @@ final class LogoutFormTest extends BaseUnitTest
 {
     public function testEmpty()
     {
-        $this->getAuth()->setAccessToken(
+        $this->getAccessTokenProvider()->setAccessToken(
             $this->getAccessToken()
         );
 
@@ -35,8 +36,13 @@ final class LogoutFormTest extends BaseUnitTest
         return $form->run()->getData('tokens.access');
     }
 
-    private function getAuth(): MockAuthComponent
+    private function getAuth(): AuthComponentInterface
     {
         return Yii::$app->get(AuthComponentInterface::class);
+    }
+
+    private function getAccessTokenProvider(): MockAccessTokenProvider
+    {
+        return Yii::$app->get(AccessTokenProviderInterface::class);
     }
 }

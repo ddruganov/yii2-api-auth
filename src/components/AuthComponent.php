@@ -117,7 +117,11 @@ class AuthComponent extends Component implements AuthComponentInterface
 
     private function verifyAccessToken(): ExecutionResult
     {
-        $accessToken = $this->extractAccessTokenFromHeaders();
+        $accessToken = $this->getAccessTokenProvider()->getAccessToken();
+        if (!$accessToken) {
+            return ExecutionResult::failure(['accessToken' => 'Токен доступа не обнаружен']);
+        }
+
         $accessTokenModel = AccessToken::findOne(['value' => $accessToken]);
         if (!$accessTokenModel) {
             return ExecutionResult::failure(['accessToken' => 'Токен доступа недействителен']);
@@ -128,13 +132,6 @@ class AuthComponent extends Component implements AuthComponentInterface
         }
 
         return ExecutionResult::success(['model' => $accessTokenModel]);
-    }
-
-    protected function extractAccessTokenFromHeaders(): ?string
-    {
-        $accessToken = Yii::$app->getRequest()->getHeaders()->get('Authorization');
-        $accessToken = str_replace('Bearer', '', $accessToken);
-        return trim($accessToken);
     }
 
     public function getCurrentUser(): ?User
@@ -149,7 +146,10 @@ class AuthComponent extends Component implements AuthComponentInterface
 
     public function getPayloadValue(string $key, mixed $default = null): mixed
     {
-        $jwt = $this->extractAccessTokenFromHeaders();
+        $jwt = $this->getAccessTokenProvider()->getAccessToken();
+        if (!$jwt) {
+            return null;
+        }
         $secret = Yii::$app->params['authentication']['tokens']['secret'];
         $decoded = (array)JWT::decode($jwt, new Key($secret, 'HS256'));
         return $decoded[$key] ?? $default;
@@ -199,5 +199,10 @@ class AuthComponent extends Component implements AuthComponentInterface
         }
 
         return ExecutionResult::success(['model' => $refreshToken]);
+    }
+
+    private function getAccessTokenProvider(): AccessTokenProviderInterface
+    {
+        return Yii::$app->get(AccessTokenProviderInterface::class);
     }
 }

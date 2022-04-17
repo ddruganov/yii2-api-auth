@@ -2,12 +2,13 @@
 
 namespace tests\unit\tests;
 
+use ddruganov\Yii2ApiAuth\components\AccessTokenProviderInterface;
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\forms\auth\CheckPermissionForm;
 use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\rbac\UserHasRole;
 use ddruganov\Yii2ApiAuth\models\User;
-use tests\components\MockAuthComponent;
+use tests\components\MockAccessTokenProvider;
 use tests\unit\BaseUnitTest;
 use Yii;
 
@@ -24,7 +25,7 @@ final class CheckPermissionFormTest extends BaseUnitTest
         $this->user = $this->getFaker()->userWithAuthenticatePermission($this->app);
 
         $loginResult = $this->getAuth()->login($this->user, $this->app);
-        $this->getAuth()->setAccessToken($loginResult->getData('tokens.access'));
+        $this->getAccessTokenProvider()->setAccessToken($loginResult->getData('tokens.access'));
     }
 
     public function testEmpty()
@@ -72,8 +73,13 @@ final class CheckPermissionFormTest extends BaseUnitTest
         $this->assertExecutionResultSuccessful($result);
     }
 
-    private function getAuth(): MockAuthComponent
+    private function getAuth(): AuthComponentInterface
     {
         return Yii::$app->get(AuthComponentInterface::class);
+    }
+
+    private function getAccessTokenProvider(): MockAccessTokenProvider
+    {
+        return Yii::$app->get(AccessTokenProviderInterface::class);
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
+use ddruganov\Yii2ApiAuth\components\AccessTokenProviderInterface;
+use ddruganov\Yii2ApiAuth\components\AuthComponent;
 use ddruganov\Yii2ApiAuth\components\AuthComponentInterface;
 use ddruganov\Yii2ApiAuth\components\RbacComponent;
 use ddruganov\Yii2ApiAuth\components\RbacComponentInterface;
 use ddruganov\Yii2ApiAuth\models\forms\LoginForm;
-use tests\components\MockAuthComponent;
+use tests\components\MockAccessTokenProvider;
 use yii\console\controllers\MigrateController;
 use yii\db\Connection;
 
@@ -20,8 +22,9 @@ return [
             'charset' => 'utf8',
             'enableSchemaCache' => false,
         ],
-        AuthComponentInterface::class => MockAuthComponent::class,
-        RbacComponentInterface::class => RbacComponent::class
+        AuthComponentInterface::class => AuthComponent::class,
+        RbacComponentInterface::class => RbacComponent::class,
+        AccessTokenProviderInterface::class => MockAccessTokenProvider::class
     ],
     'controllerMap' => [
         'migrate' => [
