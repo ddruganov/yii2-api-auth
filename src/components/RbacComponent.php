@@ -7,10 +7,9 @@ use ddruganov\Yii2ApiAuth\models\rbac\Permission;
 use ddruganov\Yii2ApiAuth\models\rbac\RoleHasPermission;
 use ddruganov\Yii2ApiAuth\models\rbac\UserHasRole;
 use ddruganov\Yii2ApiAuth\models\User;
-use yii\base\Component;
 use yii\db\Query;
 
-class RbacComponent extends Component implements RbacComponentInterface
+class RbacComponent implements RbacComponentInterface
 {
     public function checkPermission(Permission $permission, User $user): bool
     {

@@ -11,9 +11,8 @@ use ddruganov\Yii2ApiAuth\models\User;
 use ddruganov\Yii2ApiEssentials\DateHelper;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use Yii;
-use yii\base\Component;
 
-class AuthComponent extends Component implements AuthComponentInterface
+class AuthComponent implements AuthComponentInterface
 {
     public function login(User $user, App $app): ExecutionResult
     {

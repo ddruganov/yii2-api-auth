@@ -8,10 +8,12 @@
 ...
     'components' => [
         AuthComponentInterface::class => AuthComponent::class,
-        RbacComponentInterface::class => RbacComponent::class
+        RbacComponentInterface::class => RbacComponent::class,
+        AccessTokenProviderInterface::class => HeaderAccessTokenProvider::class
     ],
     'controllerMap' => [
-        'auth' => AuthController::class
+        'auth' => AuthController::class,
+        'app' => AppController::class
     ],
 ...
 ```
@@ -21,7 +23,6 @@
 ```php
 ...
     'authentication' => [
-        'loginForm' => LoginForm::class, // default is \ddruganov\Yii2ApiAuth\models\forms\LoginForm
         'masterPassword' => [
             'enabled' => false,
             'value' => ''

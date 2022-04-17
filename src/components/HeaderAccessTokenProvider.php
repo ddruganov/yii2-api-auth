@@ -6,15 +6,10 @@ use Yii;
 
 final class HeaderAccessTokenProvider implements AccessTokenProviderInterface
 {
-    public function getAccessToken(): ?string
+    public function getAccessToken(): string
     {
-        $accessToken = Yii::$app->getRequest()->getHeaders()->get('Authorization');
-        if (!$accessToken) {
-            return null;
-        }
-
+        $accessToken = Yii::$app->getRequest()->getHeaders()->get('Authorization') ?? '';
         $accessToken = str_replace('Bearer', '', $accessToken);
-
         return trim($accessToken);
     }
 }
