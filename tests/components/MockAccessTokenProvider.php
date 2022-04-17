@@ -13,7 +13,7 @@ final class MockAccessTokenProvider implements AccessTokenProviderInterface
         $this->accessToken = $value;
     }
 
-    public function getAccessToken(): ?string
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
