@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models\rbac;
 
+use ddruganov\Yii2ApiAuth\models\rbac\queries\RoleQuery;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -19,12 +20,15 @@ final class Role extends ActiveRecord
         return 'rbac.role';
     }
 
+    public static function find(): RoleQuery
+    {
+        return new RoleQuery();
+    }
+
     public function rules()
     {
         return [
-            [['name', 'description', 'created_at', 'updated_at'], 'required'],
-            [['name', 'description'], 'string'],
-            [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
+            [['name', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 

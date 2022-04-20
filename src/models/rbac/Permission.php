@@ -3,6 +3,7 @@
 namespace ddruganov\Yii2ApiAuth\models\rbac;
 
 use ddruganov\Yii2ApiAuth\models\App;
+use ddruganov\Yii2ApiAuth\models\rbac\queries\PermissionQuery;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -21,13 +22,15 @@ final class Permission extends ActiveRecord
         return 'rbac.permission';
     }
 
+    public static function find(): PermissionQuery
+    {
+        return new PermissionQuery();
+    }
+
     public function rules()
     {
         return [
-            [['app_uuid', 'name', 'description', 'created_at', 'updated_at'], 'required'],
-            [['app_uuid', 'name', 'description'], 'string'],
-            [['app_uuid'], 'exist', 'targetClass' => App::class, 'targetAttribute' => ['app_uuid' => 'uuid']],
-            [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
+            [['app_uuid', 'name', 'description', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 

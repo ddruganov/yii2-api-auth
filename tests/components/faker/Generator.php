@@ -2,10 +2,11 @@
 
 namespace tests\components\faker;
 
+use ddruganov\Yii2ApiAuth\forms\rbac\permission\CreateForm as PermissionCreateForm;
+use ddruganov\Yii2ApiAuth\forms\rbac\role\CreateForm as RoleCreateForm;
 use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\rbac\Permission;
 use ddruganov\Yii2ApiAuth\models\rbac\Role;
-use ddruganov\Yii2ApiAuth\models\rbac\RoleHasPermission;
 use ddruganov\Yii2ApiAuth\models\rbac\UserHasRole;
 use ddruganov\Yii2ApiAuth\models\User;
 use Exception;
@@ -53,44 +54,46 @@ final class Generator extends FakerGenerator
         return $model;
     }
 
-    public function permission(string $name, App $app)
+    public function permission(?string $name = null, ?App $app = null)
     {
-        $model = new Permission([
+        $name ??= $this->permissionName();
+        $app ??= $this->app();
+        $form = new PermissionCreateForm([
             'name' => $name,
-            'app_uuid' => $app->getUuid(),
+            'appUuid' => $app->getUuid(),
             'description' => $this->text()
         ]);
-        if (!$model->save()) {
-            throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));
+        $result = $form->run();
+        if (!$result->isSuccessful()) {
+            throw new Exception(VarDumper::dumpAsString($form->getErrors()));
         }
-        return $model;
+        return Permission::findOne($result->getData('id'));
     }
 
-    public function role(string $name, array $permissions = [])
+    public function permissionName()
     {
-        $model = new Role([
+        return $this->word();
+    }
+
+    public function role(?string $name = null, array $permissionIds = [])
+    {
+        $name ??= $this->word();
+        $form = new RoleCreateForm([
             'name' => $name,
-            'description' => $this->text()
+            'description' => $this->text(),
+            'permissionIds' => $permissionIds
         ]);
-        if (!$model->save()) {
-            throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));
+        $result = $form->run();
+        if (!$result->isSuccessful()) {
+            throw new Exception(VarDumper::dumpAsString($result->getErrors()));
         }
-
-        foreach ($permissions as $permission) {
-            $link = new RoleHasPermission([
-                'role_id' => $model->getId(),
-                'permission_id' => $permission->getId()
-            ]);
-            $link->save();
-        }
-
-        return $model;
+        return Role::findOne($result->getData('id'));
     }
 
     public function userWithAuthenticatePermission(App $app, ?string $password = null)
     {
         $permission = $this->permission('authenticate', $app);
-        $role = $this->role('test', [$permission]);
+        $role = $this->role('test', [$permission->getId()]);
         return $this->user($role, $password);
     }
 }

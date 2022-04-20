@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models\rbac;
 
+use ddruganov\Yii2ApiAuth\models\rbac\queries\UserHasRoleQuery;
 use ddruganov\Yii2ApiAuth\models\User;
 use yii\db\ActiveRecord;
 
@@ -15,6 +16,11 @@ final class UserHasRole extends ActiveRecord
     public static function tableName()
     {
         return 'rbac.user_has_role';
+    }
+
+    public static function find(): UserHasRoleQuery
+    {
+        return new UserHasRoleQuery();
     }
 
     public function rules()

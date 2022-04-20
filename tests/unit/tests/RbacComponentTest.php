@@ -11,7 +11,7 @@ final class RbacComponentTest extends BaseUnitTest
     public function testWithoutPermission()
     {
         $permission = $this->getFaker()->permission(
-            $this->getFaker()->asciify(),
+            $this->getFaker()->permissionName(),
             $this->getFaker()->app()
         );
         $user = $this->getFaker()->user();
@@ -22,10 +22,10 @@ final class RbacComponentTest extends BaseUnitTest
     public function testWithPermission()
     {
         $permission = $this->getFaker()->permission(
-            $this->getFaker()->asciify(),
+            $this->getFaker()->permissionName(),
             $this->getFaker()->app()
         );
-        $role = $this->getFaker()->role('test', [$permission]);
+        $role = $this->getFaker()->role('test', [$permission->getId()]);
         $user = $this->getFaker()->user($role);
         $result = $this->getRbac()->checkPermission($permission, $user);
         $this->assertTrue($result);

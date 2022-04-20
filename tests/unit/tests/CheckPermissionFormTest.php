@@ -63,7 +63,7 @@ final class CheckPermissionFormTest extends BaseUnitTest
     public function testWithUserHavingPermission()
     {
         $permission = $this->getFaker()->permission($this->getFaker()->word(), $this->app);
-        $role = $this->getFaker()->role($this->getFaker()->word(), [$permission]);
+        $role = $this->getFaker()->role($this->getFaker()->word(), [$permission->getId()]);
         (new UserHasRole(['user_id' => $this->user->getId(), 'role_id' => $role->getId()]))->save();
 
         $form = new CheckPermissionForm([

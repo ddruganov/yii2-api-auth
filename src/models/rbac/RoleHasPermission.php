@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models\rbac;
 
+use ddruganov\Yii2ApiAuth\models\rbac\queries\RoleHasPermissionQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -14,6 +15,11 @@ final class RoleHasPermission extends ActiveRecord
     public static function tableName()
     {
         return 'rbac.role_has_permission';
+    }
+
+    public static function find(): RoleHasPermissionQuery
+    {
+        return new RoleHasPermissionQuery();
     }
 
     public function rules()
