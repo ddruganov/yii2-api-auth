@@ -1,6 +1,6 @@
 <?php
 
-namespace api\controllers;
+namespace ddruganov\Yii2ApiAuth\http\controllers;
 
 use ddruganov\Yii2ApiAuth\collectors\user\UserAllCollector;
 use ddruganov\Yii2ApiAuth\collectors\user\UserOneCollector;
