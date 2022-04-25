@@ -7,7 +7,6 @@ use ddruganov\Yii2ApiAuth\forms\auth\CheckPermissionForm;
 use ddruganov\Yii2ApiAuth\forms\auth\LoginForm;
 use ddruganov\Yii2ApiAuth\forms\auth\LogoutForm;
 use ddruganov\Yii2ApiAuth\forms\auth\RefreshForm;
-use ddruganov\Yii2ApiAuth\http\filters\RbacFilter;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use ddruganov\Yii2ApiEssentials\http\actions\ClosureAction;
 use ddruganov\Yii2ApiEssentials\http\actions\FormAction;
@@ -22,7 +21,6 @@ class AuthController extends SecureApiController
                 'exceptions' => ['login', 'refresh', 'verify']
             ],
             'rbac' => [
-                'class' => RbacFilter::class,
                 'rules' => [
                     'current-user' => 'authenticate',
                     'logout' => 'authenticate',

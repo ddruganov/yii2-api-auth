@@ -12,19 +12,24 @@ class m000000_000070_create_basic_rbac extends Migration
     private const PERMISSIONS = [
         'authenticate' => 'Вход',
 
+        'app.view' => 'Просмотр приложений',
+        'app.create' => 'Создание приложений',
+        'app.update' => 'Редактирование приложений',
+        'app.delete' => 'Удаление приложений',
+
         'permission.view' => 'Просмотр разрешений',
         'permission.create' => 'Создание разрешений',
-        'permission.edit' => 'Редактирование разрешений',
+        'permission.update' => 'Редактирование разрешений',
         'permission.delete' => 'Удаление разрешений',
 
         'role.view' => 'Просмотр ролей',
         'role.create' => 'Создание ролей',
-        'role.edit' => 'Редактирование ролей',
+        'role.update' => 'Редактирование ролей',
         'role.delete' => 'Удаление ролей',
 
         'user.view' => 'Просмотр пользователей',
         'user.create' => 'Создание пользователей',
-        'user.edit' => 'Редактирование пользователей',
+        'user.update' => 'Редактирование пользователей',
         'user.delete' => 'Удаление пользователей',
     ];
 

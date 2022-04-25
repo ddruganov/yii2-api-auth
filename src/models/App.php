@@ -30,11 +30,7 @@ final class App extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'alias', 'audience', 'base_url', 'created_at'], 'required'],
-            [['name', 'alias', 'audience', 'base_url', 'created_at'], 'string'],
-            [['name', 'alias', 'base_url', 'is_default'], 'unique'],
-            [['is_default'], 'boolean'],
-            [['created_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
+            [['name', 'alias', 'audience', 'base_url', 'is_default', 'created_at'], 'safe']
         ];
     }
 

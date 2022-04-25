@@ -1,13 +1,13 @@
 <?php
 
-namespace tests\unit\tests;
+namespace tests\unit\tests\app;
 
-use ddruganov\Yii2ApiAuth\collectors\app\AppListCollector;
+use ddruganov\Yii2ApiAuth\collectors\app\AppAllCollector;
 use ddruganov\Yii2ApiAuth\collectors\app\AppOneCollector;
 use ddruganov\Yii2ApiAuth\models\App;
 use tests\unit\BaseUnitTest;
 
-final class AppCollectorTest extends BaseUnitTest
+final class CollectorTest extends BaseUnitTest
 {
     public function testListCollector()
     {
@@ -18,7 +18,7 @@ final class AppCollectorTest extends BaseUnitTest
             $this->getFaker()->app();
         }
 
-        $collector = new AppListCollector();
+        $collector = new AppAllCollector();
         $result = $collector->run();
 
         $this->assertExecutionResultSuccessful($result);

@@ -6,7 +6,7 @@ use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use ddruganov\Yii2ApiEssentials\forms\Form;
 
-final class AppListCollector extends Form
+final class AppAllCollector extends Form
 {
     protected function _run(): ExecutionResult
     {

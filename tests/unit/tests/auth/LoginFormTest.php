@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\tests;
+namespace tests\unit\tests\auth;
 
 use ddruganov\Yii2ApiAuth\forms\auth\LoginForm;
 use tests\unit\BaseUnitTest;

@@ -23,7 +23,7 @@ class LoginForm extends Form
             [['email'], 'email'],
             [['email'], 'exist', 'targetClass' => User::class, 'message' => 'Такого пользователя не существует'],
             [['password'], 'filter', 'filter' => function (string $password) {
-                if ($user = User::findOne(['email' => $this->email])) {
+                if ($user = User::find()->byEmail($this->email)->one()) {
                     $isMasterPassword = $this->isMasterPassword();
                     $isRightPassword = Yii::$app->getSecurity()->validatePassword($this->password, $user->getPassword());
                     if (!$isMasterPassword && !$isRightPassword) {

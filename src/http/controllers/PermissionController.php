@@ -4,22 +4,24 @@ namespace ddruganov\Yii2ApiAuth\http\controllers;
 
 use ddruganov\Yii2ApiAuth\collectors\rbac\permission\PermissionAllCollector;
 use ddruganov\Yii2ApiAuth\collectors\rbac\permission\PermissionOneCollector;
+use ddruganov\Yii2ApiAuth\forms\rbac\permission\CreateForm;
+use ddruganov\Yii2ApiAuth\forms\rbac\permission\DeleteForm;
+use ddruganov\Yii2ApiAuth\forms\rbac\permission\UpdateForm;
 use ddruganov\Yii2ApiAuth\http\controllers\SecureApiController;
-use ddruganov\Yii2ApiAuth\http\filters\RbacFilter;
 use ddruganov\Yii2ApiEssentials\http\actions\FormAction;
+use yii\helpers\ArrayHelper;
 
 final class PermissionController extends SecureApiController
 {
     public function behaviors()
     {
-        return array_merge(parent::behaviors(), [
+        return ArrayHelper::merge(parent::behaviors(), [
             'rbac' => [
-                'class' => RbacFilter::class,
                 'rules' => [
                     'all' => 'permission.view',
                     'one' => 'permission.view',
                     'create' => 'permission.create',
-                    'update' => 'permission.edit',
+                    'update' => 'permission.update',
                     'delete' => 'permission.delete',
                 ]
             ]

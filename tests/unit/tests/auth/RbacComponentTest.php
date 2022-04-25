@@ -1,6 +1,6 @@
 <?php
 
-namespace tests\unit\tests;
+namespace tests\unit\tests\auth;
 
 use ddruganov\Yii2ApiAuth\components\RbacComponentInterface;
 use tests\unit\BaseUnitTest;

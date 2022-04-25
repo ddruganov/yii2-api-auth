@@ -1,31 +1,29 @@
 <?php
 
-namespace ddruganov\Yii2ApiAuth\http\controllers;
+namespace api\controllers;
 
-use ddruganov\Yii2ApiAuth\collectors\app\AppAllCollector;
-use ddruganov\Yii2ApiAuth\collectors\app\AppOneCollector;
-use ddruganov\Yii2ApiAuth\forms\app\CreateForm;
-use ddruganov\Yii2ApiAuth\forms\app\DeleteForm;
-use ddruganov\Yii2ApiAuth\forms\app\UpdateForm;
+use ddruganov\Yii2ApiAuth\collectors\user\UserAllCollector;
+use ddruganov\Yii2ApiAuth\collectors\user\UserOneCollector;
+use ddruganov\Yii2ApiAuth\forms\user\CreateForm;
+use ddruganov\Yii2ApiAuth\forms\user\DeleteForm;
+use ddruganov\Yii2ApiAuth\forms\user\UpdateForm;
+use ddruganov\Yii2ApiAuth\http\controllers\SecureApiController;
 use ddruganov\Yii2ApiEssentials\http\actions\FormAction;
-use ddruganov\Yii2ApiEssentials\http\controllers\ApiController;
 use yii\helpers\ArrayHelper;
 
-final class AppController extends ApiController
+class UserController extends SecureApiController
 {
     public function behaviors()
     {
         return ArrayHelper::merge(parent::behaviors(), [
-            'auth' => [
-                'exceptions' => ['list', 'one']
-            ],
             'rbac' => [
                 'rules' => [
-                    'create' => 'app.create',
-                    'update' => 'app.update',
-                    'delete' => 'app.delete'
-                ],
-                'exceptions' => ['list', 'one']
+                    'all' => 'user.view',
+                    'one' => 'user.view',
+                    'create' => 'user.create',
+                    'update' => 'user.update',
+                    'delete' => 'user.delete',
+                ]
             ]
         ]);
     }
@@ -33,13 +31,13 @@ final class AppController extends ApiController
     public function actions()
     {
         return [
-            'list' => [
+            'all' => [
                 'class' => FormAction::class,
-                'formClass' => AppAllCollector::class
+                'formClass' => UserAllCollector::class
             ],
             'one' => [
                 'class' => FormAction::class,
-                'formClass' => AppOneCollector::class
+                'formClass' => UserOneCollector::class
             ],
             'create' => [
                 'class' => FormAction::class,

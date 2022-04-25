@@ -2,6 +2,7 @@
 
 namespace ddruganov\Yii2ApiAuth\models;
 
+use ddruganov\Yii2ApiAuth\models\queries\UserQuery;
 use ddruganov\Yii2ApiEssentials\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -20,13 +21,15 @@ class User extends ActiveRecord
         return 'user.user';
     }
 
+    public static function find(): UserQuery
+    {
+        return new UserQuery();
+    }
+
     public function rules()
     {
         return [
-            [['email', 'name', 'password', 'created_at', 'updated_at'], 'required'],
-            [['email', 'name', 'password'], 'string'],
-            [['email'], 'email'],
-            [['created_at', 'updated_at'], 'date', 'format' => 'php:Y-m-d H:i:s']
+            [['email', 'name', 'password', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 

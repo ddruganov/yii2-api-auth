@@ -2,56 +2,56 @@
 
 namespace tests\components\faker;
 
+use ddruganov\Yii2ApiAuth\forms\app\CreateForm as AppCreateForm;
 use ddruganov\Yii2ApiAuth\forms\rbac\permission\CreateForm as PermissionCreateForm;
 use ddruganov\Yii2ApiAuth\forms\rbac\role\CreateForm as RoleCreateForm;
+use ddruganov\Yii2ApiAuth\forms\user\CreateForm as UserCreateForm;
 use ddruganov\Yii2ApiAuth\models\App;
 use ddruganov\Yii2ApiAuth\models\rbac\Permission;
 use ddruganov\Yii2ApiAuth\models\rbac\Role;
-use ddruganov\Yii2ApiAuth\models\rbac\UserHasRole;
 use ddruganov\Yii2ApiAuth\models\User;
 use Exception;
 use Faker\Generator as FakerGenerator;
-use Yii;
 use yii\helpers\VarDumper;
 
 final class Generator extends FakerGenerator
 {
     public function user(?Role $role = null, ?string $password = null)
     {
+        $role ??= $this->role();
         $password ??= $this->password();
-        $model = new User([
+
+        $form = new UserCreateForm([
             'email' => $this->email(),
             'name' => $this->name(),
-            'password' => Yii::$app->getSecurity()->generatePasswordHash($password)
+            'roleIds' => [$role->getId()],
+            'password' => $password
         ]);
-        if (!$model->save()) {
-            throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));
+        $result = $form->run();
+        if (!$result->isSuccessful()) {
+            throw new Exception(VarDumper::dumpAsString($form->getErrors()));
         }
-
-        if ($role) {
-            $userHasRole = new UserHasRole([
-                'user_id' => $model->getId(),
-                'role_id' => $role->getId()
-            ]);
-            $userHasRole->save();
-        }
-
-        return $model;
+        return User::findOne($result->getData('id'));
     }
 
     public function app()
     {
-        $model = new App([
+        $form = new AppCreateForm([
             'name' => $this->name(),
-            'alias' => $this->asciify(),
-            'audience' => $this->asciify(),
-            'base_url' => $this->url(),
-            'is_default' => null
+            'alias' => $this->appAlias(),
+            'audience' => $this->url(),
+            'baseUrl' => $this->url(),
         ]);
-        if (!$model->save()) {
-            throw new Exception(VarDumper::dumpAsString($model->getFirstErrors()));
+        $result = $form->run();
+        if (!$result->isSuccessful()) {
+            throw new Exception(VarDumper::dumpAsString($form->getErrors()));
         }
-        return $model;
+        return App::findOne($result->getData('uuid'));
+    }
+
+    public function appAlias()
+    {
+        return $this->regexify('/^[a-z]+\.?[a-z]+$/');
     }
 
     public function permission(?string $name = null, ?App $app = null)
@@ -94,6 +94,6 @@ final class Generator extends FakerGenerator
     {
         $permission = $this->permission('authenticate', $app);
         $role = $this->role('test', [$permission->getId()]);
-        return $this->user($role, $password);
+        return $this->user(role: $role, password: $password);
     }
 }
