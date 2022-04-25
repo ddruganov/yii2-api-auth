@@ -7,7 +7,7 @@ use ddruganov\Yii2ApiAuth\models\User;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
 use ddruganov\Yii2ApiEssentials\forms\Form;
 
-final class DeleteForm extends Form
+class DeleteForm extends Form
 {
     public ?int $id = null;
 

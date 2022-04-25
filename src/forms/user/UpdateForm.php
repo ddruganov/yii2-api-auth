@@ -4,7 +4,7 @@ namespace ddruganov\Yii2ApiAuth\forms\user;
 
 use ddruganov\Yii2ApiAuth\models\User;
 
-final class UpdateForm extends BaseForm
+class UpdateForm extends BaseForm
 {
     public ?int $id = null;
 
