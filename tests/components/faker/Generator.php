@@ -90,8 +90,9 @@ final class Generator extends FakerGenerator
         return Role::findOne($result->getData('id'));
     }
 
-    public function userWithAuthenticatePermission(App $app, ?string $password = null)
+    public function userWithAuthenticatePermission(?App $app = null, ?string $password = null)
     {
+        $app ??= $this->app();
         $permission = $this->permission('authenticate', $app);
         $role = $this->role('test', [$permission->getId()]);
         return $this->user(role: $role, password: $password);

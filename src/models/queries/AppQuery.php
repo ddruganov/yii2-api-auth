@@ -29,11 +29,27 @@ final class AppQuery extends ActiveQuery
         return parent::one($db);
     }
 
+    public function byUuid(string|array|QueryInterface $value)
+    {
+        return $this
+            ->andWhere([
+                'uuid' => $value
+            ]);
+    }
+
     public function byAlias(string|array|QueryInterface $value)
     {
         return $this
             ->andWhere([
                 'alias' => $value
+            ]);
+    }
+
+    public function default()
+    {
+        return $this
+            ->andWhere([
+                'is_default' => true
             ]);
     }
 }

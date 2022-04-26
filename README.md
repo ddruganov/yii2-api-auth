@@ -73,6 +73,7 @@ JWT auth server with rbac
 All methods require the `authenticate` permission;
 
 -   `POST auth/login` with email and password to login into the default app and get a pair of tokens
+-   `POST auth/login-into` with an app id when already authenticated to get authenticated in another app
 -   `POST auth/refresh` with your refresh token to get a fresh pair of tokens
 -   `POST auth/logout` to logout
 -   `GET auth/current-user` to get current user info

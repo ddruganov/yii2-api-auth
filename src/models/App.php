@@ -74,10 +74,8 @@ final class App extends ActiveRecord
         return $this->created_at;
     }
 
-    public static function default()
+    public static function default(): static
     {
-        return self::findOne([
-            'is_default' => true
-        ]);
+        return self::find()->default()->one();
     }
 }

@@ -5,6 +5,7 @@ namespace ddruganov\Yii2ApiAuth\http\controllers;
 use ddruganov\Yii2ApiAuth\collectors\user\CurrentUserCollector;
 use ddruganov\Yii2ApiAuth\forms\auth\CheckPermissionForm;
 use ddruganov\Yii2ApiAuth\forms\auth\LoginForm;
+use ddruganov\Yii2ApiAuth\forms\auth\LoginIntoForm;
 use ddruganov\Yii2ApiAuth\forms\auth\LogoutForm;
 use ddruganov\Yii2ApiAuth\forms\auth\RefreshForm;
 use ddruganov\Yii2ApiEssentials\ExecutionResult;
@@ -22,6 +23,7 @@ class AuthController extends SecureApiController
             ],
             'rbac' => [
                 'rules' => [
+                    'login-into' => 'authenticate',
                     'current-user' => 'authenticate',
                     'logout' => 'authenticate',
                     'verify' => 'authenticate',
@@ -38,6 +40,10 @@ class AuthController extends SecureApiController
             'login' => [
                 'class' => FormAction::class,
                 'formClass' => LoginForm::class
+            ],
+            'login-into' => [
+                'class' => FormAction::class,
+                'formClass' => LoginIntoForm::class
             ],
             'refresh' => [
                 'class' => FormAction::class,
