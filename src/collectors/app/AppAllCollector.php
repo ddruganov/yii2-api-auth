@@ -15,7 +15,8 @@ final class AppAllCollector extends Form
                 ->select([
                     'uuid',
                     'name',
-                    'baseUrl' => 'base_url'
+                    'baseUrl' => 'base_url',
+                    'isDefault' => 'is_default'
                 ])
                 ->newestFirst()
                 ->asArray()
