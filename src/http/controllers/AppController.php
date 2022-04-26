@@ -17,7 +17,7 @@ final class AppController extends ApiController
     {
         return ArrayHelper::merge(parent::behaviors(), [
             'auth' => [
-                'exceptions' => ['list', 'one']
+                'exceptions' => ['all', 'one']
             ],
             'rbac' => [
                 'rules' => [
@@ -25,7 +25,7 @@ final class AppController extends ApiController
                     'update' => 'app.update',
                     'delete' => 'app.delete'
                 ],
-                'exceptions' => ['list', 'one']
+                'exceptions' => ['all', 'one']
             ]
         ]);
     }
@@ -33,7 +33,7 @@ final class AppController extends ApiController
     public function actions()
     {
         return [
-            'list' => [
+            'all' => [
                 'class' => FormAction::class,
                 'formClass' => AppAllCollector::class
             ],
