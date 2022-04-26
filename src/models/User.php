@@ -23,7 +23,7 @@ class User extends ActiveRecord
 
     public static function find(): UserQuery
     {
-        return new UserQuery();
+        return new UserQuery(static::class);
     }
 
     public function rules()

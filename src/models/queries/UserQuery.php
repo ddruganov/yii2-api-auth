@@ -12,9 +12,9 @@ final class UserQuery extends ActiveQuery
 {
     use Pagination, Sorting;
 
-    public function __construct(array $config = [])
+    public function __construct(string $class, array $config = [])
     {
-        parent::__construct(User::class, $config);
+        parent::__construct($class, $config);
     }
 
     /**
