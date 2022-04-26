@@ -8,10 +8,9 @@ use ddruganov\Yii2ApiAuth\forms\app\CreateForm;
 use ddruganov\Yii2ApiAuth\forms\app\DeleteForm;
 use ddruganov\Yii2ApiAuth\forms\app\UpdateForm;
 use ddruganov\Yii2ApiEssentials\http\actions\FormAction;
-use ddruganov\Yii2ApiEssentials\http\controllers\ApiController;
 use yii\helpers\ArrayHelper;
 
-final class AppController extends ApiController
+final class AppController extends SecureApiController
 {
     public function behaviors()
     {
